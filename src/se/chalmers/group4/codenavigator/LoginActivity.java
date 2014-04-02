@@ -1,3 +1,10 @@
+/**
+ * 
+ * Nasty coding but for now, it works. It will take the credentials and get the name registered on that account and print
+ * the name into logcat
+ * 
+ */
+
 package se.chalmers.group4.codenavigator;
 
 import java.io.IOException;
@@ -50,10 +57,7 @@ public class LoginActivity extends Activity {
 		//Log.d("tag", myself.getEmail());
 	}
 	
-/*	public GitHub startGit(String user, String pass) throws IOException {
-		
-		return GitHub.connectUsingPassword(user, pass);
-	}*/
+
 	
 	public void doGit(String user, String pass) {
 		try {
