@@ -38,6 +38,7 @@ public class LoginActivity extends Activity {
 		EditText username, password;
 		username = (EditText)findViewById(R.id.editText1);
 		password = (EditText)findViewById(R.id.editText2);
+		
 		this.user = username.getText().toString();
 		this.pass = password.getText().toString();
 		
