@@ -10,10 +10,14 @@ package se.chalmers.group4.codenavigator;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHUser;
@@ -25,6 +29,7 @@ public class LoginActivity extends Activity {
 	private static GitHub gitHub;
 	private String user;
 	private String pass;
+	final Handler myHandler = new Handler();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,27 +73,48 @@ public class LoginActivity extends Activity {
 		}
 	}
 	
+	public void showError() {
+		TextView error = (TextView)findViewById(R.id.textView3);
+		error.setVisibility(View.VISIBLE);		
+	}
+	
 	
 	public void startGit(final String user, final String pass) {
 		this.pass = pass;
 		this.user = user;
 		
-		Thread thread = new Thread(new Runnable(){
-		    @Override
-		    public void run() {
-		        try {
+		AsyncTask<Void, Void, GHMyself> task = (new AsyncTask<Void, Void, GHMyself>() {
+
+			@Override
+			protected GHMyself doInBackground(Void... params) {
+				try {
 		        	GitHub github = GitHub.connectUsingPassword(user, pass);
 		        	GHMyself myself = github.getMyself();
 		        	Log.d("tagga", myself.getName());
+		        	return myself;
 		        	
 		        } catch (Exception e) {
 		            e.printStackTrace();
+		            return null;
 		        }
+			}
+			protected void onPostExecute(GHMyself result) {
+		        if (result!=null){
+		        	Intent intent = new Intent(LoginActivity.this, DisplayReposActivity.class);
+					try {
+						intent.putExtra("github_name", result.getName());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					startActivity(intent);
+		        }
+		        else
+		        	showError();
 		    }
 		});
-
-		thread.start(); 
-		
+		task.execute();
+						            
 	}
 	
 }

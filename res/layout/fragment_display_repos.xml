@@ -6,10 +6,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="se.chalmers.group4.codenavigator.MainActivity$PlaceholderFragment" >
+    tools:context="se.chalmers.group4.codenavigator.DisplayReposActivity$PlaceholderFragment" >
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
