@@ -8,6 +8,7 @@
 package se.chalmers.group4.codenavigator;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,9 +21,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitUser;
+import org.kohsuke.github.PagedIterable;
 
 public class LoginActivity extends Activity {
 	
@@ -91,6 +94,10 @@ public class LoginActivity extends Activity {
 		        	GitHub github = GitHub.connectUsingPassword(user, pass);
 		        	GHMyself myself = github.getMyself();
 		        	Log.d("tagga", myself.getName());
+		        	List<GHRepository> repositories = myself.listAllRepositories().asList();
+		        	for(GHRepository r:repositories){
+		        		Log.d("repo", r.getName());
+		        	}
 		        	return myself;
 		        	
 		        } catch (Exception e) {

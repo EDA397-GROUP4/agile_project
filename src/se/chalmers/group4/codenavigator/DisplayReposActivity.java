@@ -24,7 +24,7 @@ public class DisplayReposActivity extends Activity {
 		setContentView(R.layout.activity_display_repos);
 		TextView textView = (TextView)findViewById(R.id.textViewHello);
 	    textView.setTextSize(40);
-	    textView.setText(R.string.hello + ", " + message);
+	    textView.setText(getString(R.string.hello) + ", " + message);
 
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
