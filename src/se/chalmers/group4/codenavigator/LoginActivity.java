@@ -10,6 +10,10 @@ package se.chalmers.group4.codenavigator;
 import java.io.IOException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,11 +24,13 @@ import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitUser;
 
+
+
 public class LoginActivity extends Activity {
 	
-	private static GitHub gitHub;
-	private String user;
-	private String pass;
+	//private static GitHub gitHub;
+	//private String user;
+	//private String pass;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +44,8 @@ public class LoginActivity extends Activity {
 		EditText username, password;
 		username = (EditText)findViewById(R.id.editText1);
 		password = (EditText)findViewById(R.id.editText2);
-		this.user = username.getText().toString();
-		this.pass = password.getText().toString();
+		String user = username.getText().toString();
+		String pass = password.getText().toString();
 		
 		//GHUser gh = new GHUser();
 		//GitHub github;
@@ -50,7 +56,7 @@ public class LoginActivity extends Activity {
 		//GHMyself guser = github.getMyself();
 		//Log.d("Tag", guser.getEmail());
 		//this.gh = startGit(user, pass);
-		startGit(this.user, this.pass);
+		startGit(user,pass);
 		Log.d("tag", "Gjort startGit");
 		//gitHub.get
 		//GHMyself myself = LoginActivity.gitHub.getMyself();
@@ -58,7 +64,7 @@ public class LoginActivity extends Activity {
 	}
 	
 
-	
+	/*
 	public void doGit(String user, String pass) {
 		try {
 			LoginActivity.gitHub = GitHub.connectUsingPassword(user, pass);
@@ -67,28 +73,83 @@ public class LoginActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	
+	*/
 	
 	public void startGit(final String user, final String pass) {
-		this.pass = pass;
-		this.user = user;
+		//this.pass = pass;
+		//this.user = user;
 		
-		Thread thread = new Thread(new Runnable(){
-		    @Override
-		    public void run() {
-		        try {
-		        	GitHub github = GitHub.connectUsingPassword(user, pass);
-		        	GHMyself myself = github.getMyself();
-		        	Log.d("tagga", myself.getName());
-		        	
-		        } catch (Exception e) {
-		            e.printStackTrace();
-		        }
-		    }
-		});
-
-		thread.start(); 
-		
+		//String credentials[] = {user,pass};
+		new ConnectionTask().execute(user,pass);
 	}
+
+
+	
+	private void showErrorMessage(String message) {
+        AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
+
+        dlgAlert.setMessage(message);
+        dlgAlert.setTitle("Error Message...");
+        dlgAlert.setPositiveButton("OK", null);
+        dlgAlert.setCancelable(true);
+        dlgAlert.create().show();
+
+        dlgAlert.setPositiveButton("Ok",
+            new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+	}
+	
+    private class ConnectionTask extends AsyncTask<String, Void, boolean[]> {
+        @Override
+        protected boolean[] doInBackground(String... credentials) {
+        	// 0 : Exception; 1: Wrong
+            boolean result[] = {false,false};
+            String user = credentials[0];
+            String pass = credentials[1];
+            try {
+    			GitHub gh = GitHub.connectUsingPassword(user, pass);
+    			if(gh.isCredentialValid()) {
+    				CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
+    				app.setGithubCredentials(user, pass);
+    			}
+    			else {
+    				// Wrong user/password
+    				result[1] = true;
+    			} 
+    		}
+    		catch (Exception e) {
+    			Log.d("GithubConnection", "Exception during connection : + " + e.toString());
+    			// Exception
+    			result[0] = true;
+    			
+    		}
+            
+            return result;
+        }
+        
+        @Override
+        protected void onPostExecute(boolean[] result) {
+        	boolean isException = result[0];
+        	boolean isWrong = result[1];
+        	
+        	if(isException) {
+        		showErrorMessage("Unexpected error during connection");
+        	}
+        	else if (isWrong) {
+        		showErrorMessage("Wrong user or password");
+        	}
+        	else {
+        		goToProjectList();
+        	}
+       }
+    }
+    
+    private void goToProjectList() {
+    	Intent intent = new Intent(this, ProjectListActivity.class);
+		startActivity(intent);
+    }
 	
 }
