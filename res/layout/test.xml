@@ -17,8 +17,7 @@
         android:id="@+id/buttonOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK" 
-        android:onClick="doSelectProject" />
+        android:text="OK" />
     
     <TextView
         android:id="@+id/TextViewProjects"

@@ -34,6 +34,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="se.chalmers.group4.codenavigator.LoginActivity" />
         </activity>
+        <activity
+            android:name="se.chalmers.group4.codenavigator.ProjectCommitActivity"
+            android:label="@string/title_activity_project_commit" >
+        </activity>
     </application>
 
 </manifest>

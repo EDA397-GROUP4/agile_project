@@ -2,6 +2,7 @@ package se.chalmers.group4.codenavigator;
 
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -18,14 +19,20 @@ import org.kohsuke.github.PagedIterator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.app.NavUtils;
 
 public class ProjectListActivity extends Activity {
 	private TextView textViewProjects;
+	private HashMap<String, GHRepository> repoList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class ProjectListActivity extends Activity {
 		
 		// Show the Up button in the action bar.
 		//setupActionBar();
-		
+		this.repoList = new HashMap<String, GHRepository>();
 		textViewProjects = (TextView)findViewById(R.id.TextViewProjects);
 		
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
@@ -136,6 +143,7 @@ public class ProjectListActivity extends Activity {
             	for (Map.Entry<String, GHRepository> entry : RepMap.entrySet())
             	{
             		builder.append(Integer.toString(i) +"- "+ entry.getKey() + "\n");
+            		repoList.put(Integer.toString(i), entry.getValue());
             	    i++;
             	}
             	builder.append("\n# Organisations projects");
@@ -147,6 +155,7 @@ public class ProjectListActivity extends Activity {
             		for (PagedIterator<GHRepository> thisOrgaIter = thisOrga.listRepositories(100).iterator(); thisOrgaIter.hasNext();){
             			GHRepository thisOrgaRep =  thisOrgaIter.next();
             			builder.append(Integer.toString(i) +"- "+ thisOrgaRep.getName() + "\n");
+            			repoList.put(Integer.toString(i), thisOrgaRep);
             			i++;
             		}
             	      
@@ -165,7 +174,27 @@ public class ProjectListActivity extends Activity {
         @Override
         protected void onPostExecute(String result) {
         	textViewProjects.setText(result);
+        	
        }
     }
+    
+    public void doSelectProject(View v) throws Exception {
+		Log.d("Tag", "Kommer hit");
+		EditText projectID_ed = (EditText)findViewById(R.id.selectedProject);
+
+		String projectID = projectID_ed.getText().toString();
+		
+		GHRepository repo = this.repoList.get(projectID);
+		if(repo == null) {
+			// Doesn't exist error
+			return;
+		}
+		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
+		app.setGithubRepository(repo);
+		Intent intent = new Intent(this, ProjectCommitActivity.class);
+		startActivity(intent);
+		
+
+	}
 
 }
