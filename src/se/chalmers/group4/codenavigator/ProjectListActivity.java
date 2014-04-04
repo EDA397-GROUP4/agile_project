@@ -147,6 +147,7 @@ public class ProjectListActivity extends Activity {
             		for (PagedIterator<GHRepository> thisOrgaIter = thisOrga.listRepositories(100).iterator(); thisOrgaIter.hasNext();){
             			GHRepository thisOrgaRep =  thisOrgaIter.next();
             			builder.append(Integer.toString(i) +"- "+ thisOrgaRep.getName() + "\n");
+            			i++;
             		}
             	      
             	    }
