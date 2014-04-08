@@ -4,7 +4,12 @@
     <string name="app_name">Code Navigator</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-	<string name="username">Username</string>
-	<string name="password">Password</string>
-	<string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="title_activity_project_list">ProjectListActivity</string>
+    <string name="projects_loading">Loading projects list…</string>
+    <string name="commits_loading">Loading commits list…</string>
+    <string name="title_activity_project_commit">ProjectCommitActivity</string>
+
 </resources>
