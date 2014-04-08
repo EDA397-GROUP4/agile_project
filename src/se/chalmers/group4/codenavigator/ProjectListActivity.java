@@ -4,14 +4,10 @@ package se.chalmers.group4.codenavigator;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
-import org.kohsuke.github.GHPersonSet;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
-import org.kohsuke.github.PagedIterable;
 import org.kohsuke.github.PagedIterator;
 
 
@@ -21,180 +17,167 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class ProjectListActivity extends Activity {
 	private TextView textViewProjects;
 	private HashMap<String, GHRepository> repoList;
+	private GitHub githubObject;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project_list);
 		
-		// Show the Up button in the action bar.
-		//setupActionBar();
+		// Project List TextView (ui)
+		this.textViewProjects = (TextView)findViewById(R.id.TextViewProjects);
+		
+		// Initialize an HashMap "ID"/Repository, to be fill up by the ProjectsLoadTask
 		this.repoList = new HashMap<String, GHRepository>();
-		textViewProjects = (TextView)findViewById(R.id.TextViewProjects);
 		
+		// Get the global Github Object from the app class
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
-		String user = app.getGithubUser();
-		String pass = app.getGithubPassword();
-		new ProjectsLoadTask().execute(user,pass);
+        this.githubObject = app.getGithubObject();
 		
-		/*
-		try {
-			CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
-			GitHub github = app.getGithub();
-			GHMyself myself = github.getMyself();
-			// Create the text view
-		    TextView textView = new TextView(this);
-		    textView.setTextSize(40);
-		    //textView.setText(myself.getName());
-		    textView.setText(myself.getName());
-
-		    // Set the text view as the activity layout
-		    setContentView(textView);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		
-		*/
-		
-		/*
-		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
-		GitHub github = app.getGithub();
-		
-		GHMyself myself;
-		try {
-			myself = github.getMyself();
-			// Create the text view
-		    TextView textView = new TextView(this);
-		    textView.setTextSize(40);
-		    //textView.setText(myself.getName());
-		    textView.setText("Test");
-
-		    // Set the text view as the activity layout
-		    setContentView(textView);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-		
+		// Create and launch the ProjectsLoad AsyncTask
+		// (network activities cannot be done in the main thread)
+		new ProjectsLoadTask().execute();
 		
 	}
 
 	/**
-	 * Set up the {@link android.app.ActionBar}.
+	 * Event triggered by the select project button.
+	 * Retrieves the project ID field,
+	 * and starts a ProjectCommitActivity if the project exists
 	 */
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.project_list, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
+    public void doSelectProject(View v) throws Exception {
+		Log.d("Tag", "Click on Project Select button");
+		
+		// Retrieve the EditText in the UI
+		EditText projectID_ed = (EditText)findViewById(R.id.selectedProject);
+		// Get the project ID value
+		String projectID = projectID_ed.getText().toString();
+		
+		// Retrieve the project corresponding to this ID
+		GHRepository repo = this.repoList.get(projectID);
+		
+		// Check if this given ID corresponds to a listed project
+		if(repo == null) {
+			// Doesn't exist error
+			// TODO display an error message ???
+			return;
 		}
-		return super.onOptionsItemSelected(item);
+		
+		// Save this new GitHub Repository in the Application class 
+		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
+		app.setGithubRepository(repo);
+		
+		// Start the ProjectCommit Activity
+		Intent intent = new Intent(this, ProjectCommitActivity.class);
+		startActivity(intent);
 	}
+
+
 	
-	
-    private class ProjectsLoadTask extends AsyncTask<String, Void, String> {
+    /**
+	 * Private inner class inherited from AsyncTask
+	 * used for loading the project list in a new thread.
+	 * 
+	 * This will load the personal user repositories and also the repositories of
+	 * all the organizations which the user belongs to.
+	 * 
+	 * This is made by three loops (2+1):
+	 * 1)    Loop on the user repositories
+	 * 2) a- Loop on the user organizations
+	 *    b- Loop on the organizations repositories
+	 */
+    private class ProjectsLoadTask extends AsyncTask<Void, Void, String> {
         @Override
-        protected String doInBackground(String... credentials) {
-        	String user = credentials[0];
-            String pass = credentials[1];
-            StringBuilder builder = new StringBuilder();
+        protected String doInBackground(Void... v) {
+            int i = 1; // Repository ID counter
+            StringBuilder finalText = new StringBuilder(); // Project list flat text for the UI
             
             try {
-            	GitHub github = GitHub.connectUsingPassword(user, pass);
-            	GHMyself myself = github.getMyself();
-            	Map<String, GHRepository> RepMap = myself.getAllRepositories();
-            	int i =1;
+            	/* 
+            	 * Github Myself Object : allows to access to user personal repositories
+            	 * and user organizations 
+            	 */
+            	GHMyself myself = githubObject.getMyself();
             	
-            	builder.append("# User Projects\n");
-            	for (Map.Entry<String, GHRepository> entry : RepMap.entrySet())
-            	{
-            		builder.append(Integer.toString(i) +"- "+ entry.getKey() + "\n");
-            		repoList.put(Integer.toString(i), entry.getValue());
-            	    i++;
-            	}
-            	builder.append("\n# Organisations projects");
+            	// User repositories iterator
+            	PagedIterator<GHRepository> userRepositories = myself.listAllRepositories().iterator();
+            	// User organizations iterator
+            	Iterator<GHOrganization> userOrganizations = myself.getAllOrganizations().iterator();
             	
-            	GHPersonSet<GHOrganization> orga = myself.getAllOrganizations();
-            	for (Iterator<GHOrganization> orgaIter = orga.iterator(); orgaIter.hasNext();){
-            		GHOrganization thisOrga = orgaIter.next();
-            		builder.append("\n- "+ thisOrga.getLogin() +" -\n");
-            		for (PagedIterator<GHRepository> thisOrgaIter = thisOrga.listRepositories(100).iterator(); thisOrgaIter.hasNext();){
-            			GHRepository thisOrgaRep =  thisOrgaIter.next();
-            			builder.append(Integer.toString(i) +"- "+ thisOrgaRep.getName() + "\n");
-            			repoList.put(Integer.toString(i), thisOrgaRep);
+            	/* 
+            	 * #1 - Loop on user repositories
+            	 */
+            	finalText.append("# User Repositories\n");
+            	
+            	for (PagedIterator<GHRepository> repositories = userRepositories; repositories.hasNext();){
+        			// Get the next repository
+            		GHRepository thisRepo =  repositories.next();
+        			
+            		// Add it to the UI text
+        			finalText.append(Integer.toString(i) +"- "+ thisRepo.getName() + "\n");
+        			// Add it to the repoList
+        			repoList.put(Integer.toString(i), thisRepo);
+        			i++;
+        		}
+            	
+            	
+            	/* 
+            	 * #2a - Loop on user organizations
+            	 */
+            	
+            	finalText.append("\n# Organizations Repositories");
+            	for (Iterator<GHOrganization> organizations = userOrganizations; organizations.hasNext();){
+            		// Get the next organization
+            		GHOrganization thisOrga = organizations.next();
+            		
+            		// Write it to the UI text
+            		finalText.append("\n- "+ thisOrga.getLogin() +" -\n");
+            		
+            		// This organization repositories iterator
+            		PagedIterator<GHRepository> thisOrgaRepositories = thisOrga.listRepositories().iterator();
+            		
+            		/* 
+                	 * #2b - Loop on organization repositories
+                	 */
+            		for (PagedIterator<GHRepository> orgaRepositories = thisOrgaRepositories; orgaRepositories.hasNext();) {
+            			// Get the next repository
+            			GHRepository thisOrgaRepo =  orgaRepositories.next();
+            			
+            			// Add it to the UI text
+            			finalText.append(Integer.toString(i) +"- "+ thisOrgaRepo.getName() + "\n");
+            			
+            			// Add it to the repoList
+            			repoList.put(Integer.toString(i), thisOrgaRepo);
             			i++;
             		}
             	      
-            	    }
+            	}
+
+            	// Return the repositories list flat text to be written in the UI
+                return  finalText.toString();
     		}
     		catch (Exception e) {
-    			Log.d("GithubProject", "Exception during project loading : + " + e.toString());
-    			// Exception
+    			// Oops, something bad happened
+    			Log.d("error", "GithubProjects, Exception during project loading : + " + e.toString());
+    			// Write this in the UI Text instead of the repositories lists
     			return "Unexpected exception...";
-    			
-    		}
-            
-            return  builder.toString();
+    		} 
         }
         
         @Override
         protected void onPostExecute(String result) {
+        	// Write the result to the UI.
         	textViewProjects.setText(result);
-        	
        }
     }
     
-    public void doSelectProject(View v) throws Exception {
-		Log.d("Tag", "Kommer hit");
-		EditText projectID_ed = (EditText)findViewById(R.id.selectedProject);
 
-		String projectID = projectID_ed.getText().toString();
-		
-		GHRepository repo = this.repoList.get(projectID);
-		if(repo == null) {
-			// Doesn't exist error
-			return;
-		}
-		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
-		app.setGithubRepository(repo);
-		Intent intent = new Intent(this, ProjectCommitActivity.class);
-		startActivity(intent);
-		
-
-	}
 
 }
