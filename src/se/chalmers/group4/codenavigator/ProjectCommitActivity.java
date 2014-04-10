@@ -9,6 +9,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ProjectCommitActivity extends Activity {
@@ -31,6 +34,19 @@ public class ProjectCommitActivity extends Activity {
 		// Create and launch the CommitsLoad AsyncTask
 		// (network activities cannot be done in the main thread)
 		new CommitsLoadTask().execute();
+		
+		LinearLayout commitListLayout = (LinearLayout)findViewById(R.id.CommitListLayout);
+		TextView tv1 = new TextView(this);
+	    tv1.setText("txt1");
+	    tv1.setId(1);
+	    tv1.setLayoutParams(new LayoutParams(
+	            LayoutParams.FILL_PARENT,
+	            LayoutParams.WRAP_CONTENT));
+	    TextView tv2 = new TextView(this);
+	    tv2.setText("txt2");
+	    tv2.setId(2);
+		commitListLayout.addView(tv1);
+		commitListLayout.addView(tv2);
 	}
 
 	
@@ -56,7 +72,8 @@ public class ProjectCommitActivity extends Activity {
     				GHCommit thisCommit = commits.next();
     				
     				// Add it to the UI text
-    				finalText.append(thisCommit.getCommitShortInfo().getMessage());
+    				String[] lines = thisCommit.getCommitShortInfo().getMessage().split("\n");
+    				finalText.append("=> "+lines[0]+'\n');
             	}
             	
             	// Return the commit list flat text to be written in the UI
