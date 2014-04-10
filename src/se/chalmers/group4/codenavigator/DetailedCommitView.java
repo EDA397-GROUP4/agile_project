@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kohsuke.github.GHEvent;
+import org.kohsuke.github.GHEventInfo;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHPullRequest;
 import org.kohsuke.github.GHPullRequestCommitDetail;
 import org.kohsuke.github.GHPullRequestCommitDetail.Commit;
 import org.kohsuke.github.GHRepository;
+import org.kohsuke.github.GHUser;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitUser;
 import org.kohsuke.github.PagedIterable;
@@ -27,6 +30,7 @@ public class DetailedCommitView extends Activity {
 	private TextView textViewProjects;
 	private HashMap<String, GHRepository> repoList;
 	private GitHub githubObject;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,30 +56,33 @@ public class DetailedCommitView extends Activity {
 	private class DetailedCommitLoadTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... v) {
-			int i = 1; // Repository ID counter
+//			int i = 1; // Repository ID counter
 			StringBuilder finalText = new StringBuilder(); // Project list flat text for the UI
-	            
+			finalText.append("\nCommitters..");	            
 			try {
 				/* 
 				 * Github Myself Object : allows to access to user personal repositories
 				 * and user organizations 
 				 */
 				GHMyself myself = githubObject.getMyself();
-	            	
+Log.d("Details", "myself "+myself.getName());	            	
 				// Getting User Commits (.. now at first my own..)
 				// GHMyself -> GHOrganization -> GHPullReqest ->GHPullRequestDetail -> Commit -> GitUser
 				
 				// Get User organizations
-            	Iterator<GHOrganization> userOrganizations = myself.getAllOrganizations().iterator();
+/*            	Iterator<GHOrganization> userOrganizations = myself.getAllOrganizations().iterator();
             	while(userOrganizations.hasNext()){
             		GHOrganization myOrganization = userOrganizations.next();
             		List<GHPullRequest> myRequest = myOrganization.getPullRequests();
-            		
+  
+ Log.d("Details", "after getPullRequests, size :"+myRequest.size());	            	
+
             		// Get Requests in this organization
             		Iterator<GHPullRequest> myPullRequest = myRequest.iterator();
             		while(myPullRequest.hasNext()){	 	            			
 	        			GHPullRequest myPullReq = myPullRequest.next();	        			
 	        			PagedIterable<GHPullRequestCommitDetail> myCommitDetail = myPullReq.listCommits();
+Log.d("Details", "after listCommits, size :"+myCommitDetail.asList().size());	            	
 
 	        			// Get details for each request
 	        			Iterator<GHPullRequestCommitDetail> myPullR = myCommitDetail.iterator();
@@ -83,15 +90,51 @@ public class DetailedCommitView extends Activity {
 	        				GHPullRequestCommitDetail myPullCommitDetails = myPullR.next();
 	        				
 	        				Commit mycommit = myPullCommitDetails.getCommit();
+Log.d("Details", "after getCommit()" );	            	
 	        				GitUser myGitUser = mycommit.getCommitter();
 	        				String myCommiter = myGitUser.getName();
-/* TODO remove */			System.out.println (" ***user: "+myCommiter);
+Log.d("Details", "found a commiter: "+myCommiter );	            	
 
 							// add text that shall be visible in the app...
 							finalText.append("\n"+myCommiter);
 	        			}
             		}
-            	}
+            	}*/
+// Get User organizations
+Iterator<GHOrganization> userOrganizations = myself.getAllOrganizations().iterator();
+while(userOrganizations.hasNext()){
+	GHOrganization myOrganization = userOrganizations.next();
+	PagedIterable<GHEventInfo> myEventList = myOrganization.listEvents();
+
+Log.d("Details", "after listEvents, size :"+myEventList.asList().size());	            	
+
+	// Get Requests in this organization
+	Iterator myEventsIter = myEventList.iterator();
+	while(myEventsIter.hasNext()){	 	            			
+		GHEventInfo myEvent = (GHEventInfo)myEventsIter.next();	        			
+		GHEvent theEventType = myEvent.getType();
+		GHUser  theActor     = myEvent.getActor();
+Log.d("Details", "after gettint event type : "+theEventType.name()+" actor: "+theActor.getName());	            	
+
+		// Get details for each request
+/*		Iterator<GHPullRequestCommitDetail> myPullR = myCommitDetail.iterator();
+		while(myPullR.hasNext()){
+			GHPullRequestCommitDetail myPullCommitDetails = myPullR.next();
+			
+			Commit mycommit = myPullCommitDetails.getCommit();
+Log.d("Details", "after getCommit()" );	            	
+			GitUser myGitUser = mycommit.getCommitter();
+			String myCommiter = myGitUser.getName();
+Log.d("Details", "found a commiter: "+myCommiter );	            	
+
+			// add text that shall be visible in the app...
+			finalText.append("\n"+theEventType.name()+" by "+theActor.getName());
+		}*/
+
+		finalText.append("\n"+theEventType.name()+" by "+theActor.getName());
+
+	}
+}
 	            		            			
 	            	            	
 	            	
@@ -140,6 +183,7 @@ public class DetailedCommitView extends Activity {
 	    			// Write this in the UI Text instead of the repositories lists
 	    			return "Unexpected exception...";
 				} 
+Log.d("Details", "leaving DetailedCommitLoadTask.doInBackground..:"+finalText.toString() );	            	
 	            return finalText.toString();
         }
         
