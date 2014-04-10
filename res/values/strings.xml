@@ -14,7 +14,8 @@
     <string name="title_activity_commit">CommitActivity</string>
     <string name="aCommitButton">CommitActivity</string>
     <string name="aCommitActivity">something</string>
-<string name="aCommitOK">Commit</string>
+    <string name="commits_update">New Commits Available</string>
+	<string name="aCommitOK">Commit</string>
 </resources>
 
 

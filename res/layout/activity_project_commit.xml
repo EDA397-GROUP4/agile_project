@@ -14,4 +14,15 @@
         android:layout_height="fill_parent"
         android:text="@string/commits_loading" />
 
+    <TextView
+        android:id="@+id/textViewUpdates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/TextViewCommits"
+        android:layout_alignBottom="@+id/TextViewCommits"
+        android:layout_alignRight="@+id/TextViewCommits"
+        android:layout_marginRight="55dp"
+        android:visibility="invisible"
+        android:text="@string/commits_update" />
+
 </RelativeLayout>

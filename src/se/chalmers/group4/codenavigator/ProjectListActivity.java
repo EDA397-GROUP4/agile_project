@@ -4,11 +4,13 @@ package se.chalmers.group4.codenavigator;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.PagedIterator;
+
 
 
 
@@ -184,9 +186,13 @@ public class ProjectListActivity extends Activity {
     public void startCommit(View view)
 	{
     
-    	Intent intent = new Intent(this, DetailedCommitView.class);
+    	Intent intent = new Intent(this, ProjectCommitActivity.class);
     	
-    	// EditText editText = (EditText) findViewById(R.id.edit_message);
+    	 EditText editText = (EditText) findViewById(R.id.selectedProject);
+    	 GHRepository selectedRepo = repoList.get(editText.getText().toString());
+    	 Log.d("REPO", selectedRepo.toString());
+    	 CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication(); 
+    	 app.setGithubRepository(selectedRepo);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
