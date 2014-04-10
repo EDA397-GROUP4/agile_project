@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
 
     <EditText
         android:id="@+id/selectedProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="5" 
-        android:hint="@string/aCommitOK">
+        android:ems="5" >
 
         <requestFocus />
     </EditText>
@@ -18,17 +17,13 @@
         android:id="@+id/buttonOK"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/aCommitOK" 
-        android:layout_below="@+id/selectedProject"
-        android:onClick="startCommit" />
+        android:text="OK" 
+        android:onClick="doSelectProject" />
     
     <TextView
         android:id="@+id/TextViewProjects"
         android:layout_width="fill_parent"
-        android:layout_below="@+id/buttonOK"
         android:layout_height="fill_parent"
         android:text="@string/projects_loading" />
-    
-    
 
-</RelativeLayout>
+</LinearLayout>
