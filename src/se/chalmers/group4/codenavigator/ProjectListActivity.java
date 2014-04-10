@@ -175,31 +175,8 @@ public class ProjectListActivity extends Activity {
         protected void onPostExecute(String result) {
         	// Write the result to the UI.
         	textViewProjects.setText(result);
-        	
-        	
-        		
-        	}
-
+       }
     }
-    public void startCommit(View view)
-	{
-    
-    	Intent intent = new Intent(this, DetailedCommitView.class);
-    	
-    	// EditText editText = (EditText) findViewById(R.id.edit_message);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-    //	EditText editText = (EditText) findViewById(R.id.edit_message);
-    	
-    	// String message = editText.getText().toString();
-    	    	
-    	
-    	
-    }
-    
-    
-
     
 
 
