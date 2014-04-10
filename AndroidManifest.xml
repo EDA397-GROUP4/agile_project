@@ -38,10 +38,7 @@
             android:name="se.chalmers.group4.codenavigator.ProjectCommitActivity"
             android:label="@string/title_activity_project_commit" >
         </activity>
-        <activity
-            android:name="se.chalmers.group4.codenavigator.DetailedCommitView"
-            android:label="@string/title_activity_commit" >
-        </activity>
+
     </application>
 
 </manifest>
