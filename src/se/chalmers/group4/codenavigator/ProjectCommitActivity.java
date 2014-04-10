@@ -115,22 +115,36 @@ public class ProjectCommitActivity extends Activity {
             	Long updateTime = app.getUpdateTime();
             	Log.d("LAST TIME", "" + updateTime);
             	
+            	String latestCommit = "";
             	int nrNewCommits = 0;
-            	
+            	int i = 0;
             	for (PagedIterator<GHCommit> commits =  repoCommits; commits.hasNext();){
     				// Get the next commit 
     				GHCommit thisCommit = commits.next();
+    				Log.d("TEST4", thisCommit.getCommitter().getName());
+    				Log.d("TEST4", thisCommit.getSHA1());
+    				//Current commit
+    				if(i == 0) {
+    					latestCommit = thisCommit.getSHA1();
+    					i++;
+    				}
+    				
+    				/*
     				List<GHCommitStatus> list = thisCommit.listStatuses().asList();
     				Log.d("COMM STATUS LIST", "" + list.size());
     				if(thisCommit.getLastStatus() == null) {
     					Log.d("COMM STATUS", "NO STATUS");
     					continue;
-    				}
+    				}*/
     				Log.d("COMM STATUS", thisCommit.getLastStatus().toString());
     				// Count the new commits
-    				if (thisCommit.getLastStatus().getCreatedAt().getTime() > updateTime){
+    				if (thisCommit.getSHA1() != latestCommit){
     					nrNewCommits = + 1;
+    					Log.d("NEW COMMITS", ""+ nrNewCommits);
+    				} else {
+    					Log.d("NEW COMMITS", "No new commit");
     				}
+    				
             	}
             	Log.d("NEW COMMITS", ""+ nrNewCommits);
             	//Updating the UI with a message showing the number of new commits, if any
