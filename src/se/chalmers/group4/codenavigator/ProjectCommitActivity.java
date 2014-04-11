@@ -61,9 +61,9 @@ public class ProjectCommitActivity extends Activity {
 				
 				// Start the ProjectCommit Activity
 				
-				//Intent intent = new Intent(this, DetailedCommitView.class);
-				//intent.putExtra("COMMIT_ID", sha1);
-				//startActivity(intent);
+				Intent intent = new Intent(this, CommitDetailActivity.class);
+				intent.putExtra("COMMIT_ID", sha1);
+				startActivity(intent);
 	}
 	
 	/**

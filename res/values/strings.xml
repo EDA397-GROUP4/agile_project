@@ -11,6 +11,6 @@
     <string name="projects_loading">Loading projects list…</string>
     <string name="commits_loading">Loading commits list…</string>
     <string name="title_activity_project_commit">ProjectCommitActivity</string>
+    <string name="title_activity_commit_detail">CommitDetailActivity</string>
+
 </resources>
-
-
