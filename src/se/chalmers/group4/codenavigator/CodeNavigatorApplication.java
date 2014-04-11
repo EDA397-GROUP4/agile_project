@@ -11,9 +11,18 @@ public class CodeNavigatorApplication extends Application {
 
 	private GHRepository githubRepository;
 	private GitHub githubObject;
+	private Long updateTime; 
 
 
-    public void setGithubRepository(GHRepository repo) {
+    public Long getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Long updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public void setGithubRepository(GHRepository repo) {
     	this.githubRepository = repo;
     }
 
