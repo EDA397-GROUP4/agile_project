@@ -17,6 +17,13 @@
     <string name="aCommitActivity">something</string>
     <string name="commits_update">New Commits Available</string>
 	<string name="aCommitOK">Commit</string>
+	
+	
+	
+
+    <string name="quitButton">Quit</string>
+
+
 
 </resources>
 <!-- ======= -->

@@ -138,12 +138,14 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ProjectCommitActivity extends Activity {
@@ -242,7 +244,7 @@ public class ProjectCommitActivity extends Activity {
     				// Get the next commit 
     				GHCommit thisCommit = commits.next();
     			
-    				//commitList.put(Integer.toString(i), thisCommit.getSHA1());
+    				commitList.put(Integer.toString(i), thisCommit.getSHA1());
     				
     				// Add it to the UI text
     				String[] lines = thisCommit.getCommitShortInfo().getMessage().split("\n");
@@ -372,6 +374,30 @@ public class ProjectCommitActivity extends Activity {
 		}
 
 	}
+	
+	public void doSelectCommit(View v) throws Exception {
+	
+	// Retrieve the EditText in the UI
+			EditText commitID_ed = (EditText)findViewById(R.id.selectedCommit);
+			// Get the project ID value
+			String projectID = commitID_ed.getText().toString();
+			
+			// Retrieve the project corresponding to this ID
+			String sha1 = this.commitList.get(projectID);
+			
+			// Check if this given ID corresponds to a listed project
+			if(sha1 == null) {
+				// Doesn't exist error
+				// TODO display an error message ???
+				return;
+			}
+			
+			// Start the ProjectCommit Activity
+			
+			Intent intent = new Intent(this, CommitDetailActivity.class);
+			intent.putExtra("COMMIT_ID", sha1);
+			startActivity(intent);
+}
 
 }
 
