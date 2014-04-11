@@ -28,11 +28,7 @@
         <activity android:name="se.chalmers.group4.codenavigator.LoginActivity" />
         <activity
             android:name="se.chalmers.group4.codenavigator.ProjectListActivity"
-            android:label="@string/title_activity_project_list"
-            android:parentActivityName="se.chalmers.group4.codenavigator.LoginActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="se.chalmers.group4.codenavigator.LoginActivity" />
+            android:label="@string/title_activity_project_list" >
         </activity>
         <activity
             android:name="se.chalmers.group4.codenavigator.ProjectCommitActivity"

@@ -2,13 +2,16 @@ package se.chalmers.group4.codenavigator;
 
 
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.PagedIterator;
+
 
 
 
@@ -40,7 +43,7 @@ public class ProjectListActivity extends Activity {
 		// Get the global Github Object from the app class
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
         this.githubObject = app.getGithubObject();
-		
+        		
 		// Create and launch the ProjectsLoad AsyncTask
 		// (network activities cannot be done in the main thread)
 		new ProjectsLoadTask().execute();
@@ -175,28 +178,19 @@ public class ProjectListActivity extends Activity {
         protected void onPostExecute(String result) {
         	// Write the result to the UI.
         	textViewProjects.setText(result);
-        	
-        	
-        		
-        	}
+        }
 
     }
-    public void startCommit(View view)
+    public void startCommitDetails(View view)
 	{
     
     	Intent intent = new Intent(this, DetailedCommitView.class);
-    	
-    	// EditText editText = (EditText) findViewById(R.id.edit_message);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
+
+    	//TODO - now hardcoded
+        String message = "c039172d1187244625045c997ec93960f6e7fb6d";  //Romain's commit
+        intent.putExtra("COMMIT_ID", message);
         startActivity(intent);
-    //	EditText editText = (EditText) findViewById(R.id.edit_message);
-    	
-    	// String message = editText.getText().toString();
-    	    	
-    	
-    	
-    }
+     }
     
     
 

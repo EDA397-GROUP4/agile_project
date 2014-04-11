@@ -9,18 +9,24 @@
     tools:context=".DetailedCommitView" >
 
     <TextView
+        android:id="@+id/textCommitId"
         android:layout_width="wrap_content"
-        android:id="@+id/textCommit"
         android:layout_height="wrap_content"
         android:text="@string/aCommitActivity" 
         android:textAppearance="?android:attr/textAppearanceLarge"/>
+ 
     <Button
-		android:id="@+id/buttonCommit"
-          android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-        android:layout_below="@+id/textCommit"
-        android:text="@string/aCommitButton"
+		android:id="@+id/buttonQuit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textCommitId"
+        android:text="@string/quitButton"
         android:onClick="home" />
     
-
+	<TextView
+        android:id="@+id/textViewCommitDetails"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/buttonQuit"
+        android:text="@string/projects_loading" />
 </RelativeLayout>

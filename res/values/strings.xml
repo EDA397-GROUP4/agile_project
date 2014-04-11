@@ -13,8 +13,9 @@
     <string name="title_activity_project_commit">ProjectCommitActivity</string>
     <string name="title_activity_commit">CommitActivity</string>
     <string name="aCommitButton">CommitActivity</string>
+    <string name="quitButton">Quit</string>
     <string name="aCommitActivity">something</string>
-<string name="aCommitOK">Commit</string>
+	<string name="aCommitOK">Commit to get details</string>
 </resources>
 
 
