@@ -10,40 +10,37 @@
     <string name="title_activity_project_list">ProjectListActivity</string>
     <string name="projects_loading">Loading projects list…</string>
     <string name="commits_loading">Loading commits list…</string>
+    <string name="stories_loading">Loading stories list…</string>
     <string name="title_activity_project_commit">ProjectCommitActivity</string>
     <string name="title_activity_commit_detail">CommitDetailActivity</string>
     <string name="title_activity_commit">CommitActivity</string>
     <string name="aCommitButton">CommitActivity</string>
     <string name="aCommitActivity">something</string>
     <string name="commits_update">New Commits Available</string>
-	<string name="aCommitOK">Commit</string>
-	
-	
-	
-
+    <string name="aCommitOK">Commit</string>
     <string name="quitButton">Quit</string>
+    <string name="title_activity_project_stories">ProjectStoriesActivity</string>
 
-
-
-</resources>
-<!-- ======= -->
+</resources><!-- ======= -->
 <!-- <?xml version="1.0" encoding="utf-8"?> -->
 <!-- <resources> -->
 
-<!--     <string name="app_name">Code Navigator</string> -->
-<!--     <string name="hello_world">Hello world!</string> -->
-<!--     <string name="action_settings">Settings</string> -->
-<!--     <string name="username">Username</string> -->
-<!--     <string name="password">Password</string> -->
-<!--     <string name="login">Login</string> -->
-<!--     <string name="title_activity_project_list">ProjectListActivity</string> -->
-<!--     <string name="projects_loading">Loading projects list…</string> -->
-<!--     <string name="commits_loading">Loading commits list…</string> -->
-<!--     <string name="title_activity_project_commit">ProjectCommitActivity</string> -->
-<!--     <string name="title_activity_commit">CommitActivity</string> -->
-<!--     <string name="aCommitButton">CommitActivity</string> -->
-<!--     <string name="aCommitActivity">something</string> -->
-<!--     <string name="commits_update">New Commits Available</string> -->
-<!-- 	<string name="aCommitOK">Commit</string> -->
+
+<!-- <string name="app_name">Code Navigator</string> -->
+<!-- <string name="hello_world">Hello world!</string> -->
+<!-- <string name="action_settings">Settings</string> -->
+<!-- <string name="username">Username</string> -->
+<!-- <string name="password">Password</string> -->
+<!-- <string name="login">Login</string> -->
+<!-- <string name="title_activity_project_list">ProjectListActivity</string> -->
+<!-- <string name="projects_loading">Loading projects list…</string> -->
+<!-- <string name="commits_loading">Loading commits list…</string> -->
+<!-- <string name="title_activity_project_commit">ProjectCommitActivity</string> -->
+<!-- <string name="title_activity_commit">CommitActivity</string> -->
+<!-- <string name="aCommitButton">CommitActivity</string> -->
+<!-- <string name="aCommitActivity">something</string> -->
+<!-- <string name="commits_update">New Commits Available</string> -->
+<!-- <string name="aCommitOK">Commit</string> -->
 <!-- </resources> -->
 <!-- >>>>>>> refs/remotes/Github/master -->
+
