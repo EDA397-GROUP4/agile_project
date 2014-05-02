@@ -158,7 +158,7 @@ public class ProjectCommitActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_project_commit);
+		setContentView(R.layout.navbar_layout);
 
 		// Commit List TextView (ui)
 		this.textViewCommits = (TextView) findViewById(R.id.TextViewCommits);
