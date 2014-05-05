@@ -1,16 +1,16 @@
 package se.chalmers.group4.codenavigator;
 
 import org.kohsuke.github.GHCommit;
-import org.kohsuke.github.GHCommitStatus;
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
 import android.util.Log;
-import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 public class CommitDetailActivity extends Activity {
@@ -34,10 +34,7 @@ public class CommitDetailActivity extends Activity {
 				textViewCommitId.setText(commitId);
 
 
-				// Initialize an HashMap "ID"/Repository, to be fill up by the ProjectsLoadTask
-//				this.repoList = new HashMap<String, GHRepository>();
-
-				// Get the global Github Object from the app class
+				
 				CodeNavigatorApplication app              = (CodeNavigatorApplication)getApplication();   
 		        this.githubRepository = app.getGithubRepository();    
 				Log.d("tag","githubRepository: "+githubRepository)	;	
@@ -48,8 +45,21 @@ public class CommitDetailActivity extends Activity {
 				new DetailedCommitLoadTask().execute();
 		
 	}
-	
-	
+		public void getfile(View v) throws Exception
+	{
+		Log.d("file","clicked");
+			Intent intent = new Intent(this, DisplayShowFilesActivity.class);
+		
+		if (commitId==null)
+		{
+			commitId="hai";
+			
+		}
+		intent.putExtra("COMMIT_ID", commitId);
+		Log.d("file","startactivity:"+commitId);
+		Log.d("file","ready");
+		startActivity(intent);
+	}
 	
 	private class DetailedCommitLoadTask extends AsyncTask<Void, Void, String> {
 		@Override
@@ -58,49 +68,10 @@ public class CommitDetailActivity extends Activity {
 			detailsText.append("Detailed information:\n");	            
 			try {
 				Log.d("tag","githubObject: "+githubObject)	;			
-//----------
-/*				GHRepository githubRepository = null;    
-				//Log.d("tag","githubRepository: "+githubRepository)	;			
-			   	try {
-			   		githubRepository = githubObject.getRepository("EDA397-GROUP4/agile_project");
-			   	} catch (IOException e) {
-			   		// TODO Auto-generated catch block
-			   		Log.d("XXX","exp getRepositoyr "+e.getMessage());
-			   		e.printStackTrace();
-			   	} //MM
-			   		Log.d("XXX","after githubRepository: "+githubRepository)	;	//MM		
-*/
-				//			   		GitHub githubObject           = app.getGithubObject();//MM
-//			   		Log.d("XXX","githubObject: "+githubObject)	;			//MM
 
-//-------------				
 				GHMyself myself = githubObject.getMyself();
 				Log.d("tag", "myself "+myself.getName());	            	
-				// Getting User Commits (.. now at first my own..)
-
-/*				// Get User organizations
-				Iterator<GHOrganization> userOrganizations = myself.getAllOrganizations().iterator();
-				while(userOrganizations.hasNext()){
-					GHOrganization myOrganization = userOrganizations.next();
-					PagedIterable<GHEventInfo> myEventList = myOrganization.listEvents();
 				
-					Log.d("Details", "after listEvents, size :"+myEventList.asList().size());	            	
-				
-					// Get Requests in this organization
-					Iterator myEventsIter = myEventList.iterator();
-					while(myEventsIter.hasNext()){	 	            			
-						GHEventInfo myEvent = (GHEventInfo)myEventsIter.next();	        			
-						GHEvent theEventType = myEvent.getType();
-						GHUser  theActor     = myEvent.getActor();
-						Log.d("Details", "after gettint event type : "+theEventType.name()+" actor: "+theActor.getName());	            	
-				
-						finalText.append("\n"+theEventType.name()+" by "+theActor.getName());				
-					}
-				}*/
-		/*		PagedIterable<GHCommit> allCommits = githubRepository.listCommits();
-				Log.d("tag","allCommits: "+allCommits);
-				Iterator  allCommitsIter = allCommits.iterator();
-				while (allCommitsIter.hasNext()) {*/
 					GHCommit       theCommit     = githubRepository.getCommit(commitId);
 					//////GHCommit theCommit = (GHCommit)allCommitsIter.next();
 					Log.d("tag","theCommit:"+theCommit);
@@ -111,11 +82,7 @@ public class CommitDetailActivity extends Activity {
 
 					detailsText.append("Committer: "+theCommit.getCommitter());
 					detailsText.append(" / Author: "+theCommit.getAuthor() + "\n");
-					//detailsText.append("created : "+theLastStatus.getCreatedAt().toGMTString() + " by " + theLastStatus.getCreator()+ "\n");
-
-					//detailsText.append("updated : "+theLastStatus.getUpdatedAt().toGMTString());
-					//detailsText.append("state: "+ theLastStatus.getState().name());
-		//		}
+					
 			}    		             		
 			catch (Exception e) {
     			// Oops, something bad happened
@@ -134,14 +101,7 @@ public class CommitDetailActivity extends Activity {
         }
 
     }
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.commit_detail, menu);
-		return true;
-	}
-*/
+
 
 	
 	
