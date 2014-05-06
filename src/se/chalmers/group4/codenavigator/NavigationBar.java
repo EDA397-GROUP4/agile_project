@@ -66,7 +66,8 @@ public class NavigationBar {
 		rbStories.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showErrorMessage("Stories", act);
+				Intent intentHome = new Intent(act, ProjectStoriesActivity.class);
+	    		act.startActivity(intentHome);
 			}
 		});
 		
