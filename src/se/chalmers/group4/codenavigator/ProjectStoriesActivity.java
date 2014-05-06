@@ -24,7 +24,9 @@ public class ProjectStoriesActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_project_stories);
+		//setContentView(R.layout.activity_project_stories);
+		NavigationBar.load_navbar(this,3);
+		NavigationBar.insert_main_layout(this, R.layout.activity_project_stories);
 
 		// Story List TextView (ui)
 		this.textViewStories = (TextView) findViewById(R.id.TextViewStories);
