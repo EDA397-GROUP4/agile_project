@@ -23,7 +23,9 @@ public class CommitDetailActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_commit_detail);
+		//setContentView(R.layout.activity_commit_detail);
+		NavigationBar.load_navbar(this,4);
+		NavigationBar.insert_main_layout(this, R.layout.activity_commit_detail);
 		
 		// Try to read the sent CommitId
 				commitId = getIntent().getStringExtra("COMMIT_ID");

@@ -32,7 +32,11 @@ public class DisplayShowFilesActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.d("file","startingoncreate="+"");
 		
-		setContentView(R.layout.activity_display_show_files);
+		
+		//setContentView(R.layout.activity_display_show_files);
+		NavigationBar.load_navbar(this,4);
+		NavigationBar.insert_main_layout(this, R.layout.activity_display_show_files);
+		
 		this.fileviewProjects=(TextView)findViewById(R.id.ViewFilesList);
 				String commitId = getIntent().getStringExtra("COMMIT_ID");
 		
