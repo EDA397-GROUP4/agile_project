@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="@android:color/white"
+  android:id="@+id/navbar_layout_root"
+>
+
+    <!-- <include layout="@layout/activity_project_commit"/> -->
+    <ViewStub
+    android:id="@+id/layout_stub"
+    android:inflatedId="@+id/message_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.75" />
+    
+  <RadioGroup
+    android:id="@+id/navbar_radiogroup"
+    android:layout_width="fill_parent"
+    android:layout_height="60dp"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal"
+    android:background="@drawable/navbar_background"
+  >
+    <RadioButton
+      android:id="@+id/btnHome"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/navbar_allselector"
+      android:text="Home"
+    />
+    <RadioButton
+      android:id="@+id/btnBranches"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/navbar_pictureselector"
+      android:text="Branches"
+      android:layout_marginLeft="5dp"
+    />
+    <RadioButton
+      android:id="@+id/btnStories"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/navbar_videoselector"
+      android:text="Stories"
+      android:layout_marginLeft="5dp"
+    />
+    <RadioButton
+      android:id="@+id/btnCommits"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/navbar_fileselector"
+      android:text="Commits"
+      android:layout_marginLeft="5dp"
+    />
+    </RadioGroup>
+</RelativeLayout>
+
