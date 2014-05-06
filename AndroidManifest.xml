@@ -42,6 +42,10 @@
             android:name="se.chalmers.group4.codenavigator.CommitDetailActivity"
             android:label="@string/title_activity_commit_detail" >
         </activity>
+        <activity
+            android:name="se.chalmers.group4.codenavigator.DisplayShowFilesActivity"
+            android:label="@string/title_activity_display_show_files" >
+        </activity>
     </application>
 
 </manifest>
