@@ -159,7 +159,7 @@ public class ProjectCommitActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.navbar_layout);
-		NavigationBar.load_navbar(this);
+		NavigationBar.load_navbar(this,4);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_commit);
 
 		// Commit List TextView (ui)
