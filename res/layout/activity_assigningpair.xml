@@ -8,12 +8,6 @@
 
 	    android:orientation="vertical"
 	    tools:context=".AssigningPairActivity" >
-		 <TextView
-		        android:id="@+id/loading_team_members"
-		        android:layout_width="fill_parent"
-		        android:layout_height="fill_parent"
-		        android:text="@string/members_loading" />
-		    
 		<TextView
 	        android:id="@+id/team_membersList"
 	        android:layout_width="wrap_content"

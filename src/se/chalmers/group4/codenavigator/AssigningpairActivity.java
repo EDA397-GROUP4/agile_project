@@ -45,6 +45,10 @@ public class AssigningpairActivity extends Activity {
 	    protected String doInBackground(Void... v) {
 	    	
 	 		try {
+	 			// Tell the user that it's loading...
+		    	TextView loadingmembers = (TextView) findViewById(R.id.team_membersList);
+		    	loadingmembers.setText(R.string.members_loading);
+		    	loadingmembers.setVisibility(View.VISIBLE);
 	
 	 		   	// From the GitHubRepository we can get a list of all teams
 	 			Set<GHTeam> allTheTeams = githubRepository.getTeams();
@@ -108,8 +112,8 @@ public class AssigningpairActivity extends Activity {
 	    	// Write the result to the UI.
 	    	Log.d("assigning","onPostExecute:" +"result");
 	    	teamMemberList.setVisibility(View.VISIBLE);
-	    	TextView loadingmembers = (TextView) findViewById(R.id.loading_team_members);
-	    	loadingmembers.setText("");
+//	    	TextView loadingmembers = (TextView) findViewById(R.id.loading_team_members);
+//	    	loadingmembers.setText("");
 	    	        	
 	    	teamMemberList.setText(result);
 	    	
