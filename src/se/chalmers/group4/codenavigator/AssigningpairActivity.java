@@ -33,7 +33,7 @@ public class AssigningpairActivity extends Activity {
 	private ArrayAdapter<String> adapter;
 	private Spinner              memberListSpinner;
 	private int	                 choosenProgrammerIndex;
-	private String[]             availableProgrammers;
+//	private String[]             availableProgrammers;
 	private TextView             loadingMemberList;
 	private ArrayList<String>	 listOfAvailableProgrammers;
 	private String               theNavigator;
@@ -43,7 +43,7 @@ public class AssigningpairActivity extends Activity {
 		super.onCreate(savedInstanceState);
 			
 		//setContentView(R.layout.activity_display_show_files);
-		NavigationBar.load_navbar(this,4);
+		NavigationBar.load_navbar(this,3);
 		NavigationBar.insert_main_layout(this, R.layout.activity_assigningpair);
 		
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();   
@@ -109,15 +109,16 @@ public class AssigningpairActivity extends Activity {
 				Log.d("assigning","number of members: "+theMemberList.size());
 				
 				int           i         = 0; // Team member counter
-				availableProgrammers       = new String[theMemberList.size()+1]; //first empty!
+//				availableProgrammers       = new String[theMemberList.size()+1]; //first empty!
 				listOfAvailableProgrammers = new ArrayList<String>();
+				listOfAvailableProgrammers.add(" ");
 	        	for (GHUser aMember: theMemberList)
 	            {
 	            	Log.d("assigning","In loop...memblerlist nr: "+i);
 	            	Log.d("assigning","githubrepository: "+aMember.getName());
 	            	
 	            	if (!theNavigator.equals(aMember.getName()) ) {    //don't show myself in the list
-		            	availableProgrammers[i] = aMember.getName();
+//		            	availableProgrammers[i] = aMember.getName();
 		            	listOfAvailableProgrammers.add(aMember.getName());
 	            		i++;
 	            	}
@@ -154,7 +155,8 @@ public class AssigningpairActivity extends Activity {
 	    		TextView navigator     = (TextView)findViewById(R.id.navigator);
 	    		navigator.setText(AssigningpairActivity.NAVIGATOR_LABEL+theNavigator);
 	    		TextView programmer    = (TextView)findViewById(R.id.programmer);
-	    		programmer.setText(AssigningpairActivity.PROGRAMMER_LABEL+availableProgrammers[choosenProgrammerIndex]);
+//	    		programmer.setText(AssigningpairActivity.PROGRAMMER_LABEL+availableProgrammers[choosenProgrammerIndex]);
+	    		programmer.setText(AssigningpairActivity.PROGRAMMER_LABEL+listOfAvailableProgrammers.get(choosenProgrammerIndex));
 	    		loadingMemberList.setText(R.string.selectedPair);
 	    	}
 	    	
