@@ -10,9 +10,12 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.PagedIterator;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class ProjectStoriesActivity extends Activity {
@@ -20,6 +23,8 @@ public class ProjectStoriesActivity extends Activity {
 	private TextView textViewStories;
 	private HashMap<String, GHIssue> storyList;
 	private GHRepository githubRepository;
+	private GHIssue story;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,39 @@ public class ProjectStoriesActivity extends Activity {
 		// (network activities cannot be done in the main thread)
 		new StoriesLoadTask().execute();
 	}
+	
+	
+    public void doSelectStory(View v) throws Exception {
+		
+		
+		// Retrieve the EditText in the UI
+		EditText selectedStory = (EditText)findViewById(R.id.selectedStory);
+		// Get the project ID value
+		String storyId = selectedStory.getText().toString();
+		
+		// Retrieve the project corresponding to this ID
+		this.story = this.storyList.get(storyId);
+		
+		// Check if this given ID corresponds to a listed project
+		if(this.story == null) {
+			// Doesn't exist error
+			// TODO display an error message ???
+			return;
+		}
+		
+		// Save this new GitHub Repository in the Application class 
+		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
+		app.setCurrentStory(story);
+		Log.d("Tag", "kommer 1");
+		// Start the ProjectCommit Activity
+		Intent intent = new Intent(this, StoryViewActivity.class);
+		Log.d("Tag", "kommer 2");
+		startActivity(intent);
+		
+		Log.d("Tag", "kommer 3");
+	}
+    
+
 
 	/**
 	 * Private inner class inherited from AsyncTask used for loading the stories

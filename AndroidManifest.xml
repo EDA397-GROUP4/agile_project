@@ -50,6 +50,12 @@
             android:name="se.chalmers.group4.codenavigator.DisplayShowFilesActivity"
             android:label="@string/title_activity_display_show_files" >
         </activity>
+        <activity
+            android:name="se.chalmers.group4.codenavigator.StoryViewActivity"
+
+            android:label="@+id/storyName"
+            >
+        </activity>
     </application>
 
 </manifest>

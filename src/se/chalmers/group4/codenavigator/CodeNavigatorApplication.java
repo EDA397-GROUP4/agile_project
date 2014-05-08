@@ -1,6 +1,7 @@
 package se.chalmers.group4.codenavigator;
 
 
+import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
@@ -12,6 +13,7 @@ public class CodeNavigatorApplication extends Application {
 	private GHRepository githubRepository;
 	private GitHub githubObject;
 	private Long updateTime; 
+	private GHIssue story;
 
 
     public Long getUpdateTime() {
@@ -39,6 +41,13 @@ public class CodeNavigatorApplication extends Application {
 		this.githubObject = github;
 	}
     
+	public void setCurrentStory(GHIssue story) {
+		this.story = story;
+	}
+	
+	public GHIssue getCurrentStory() {
+		return this.story;
+	}
 
     
 
