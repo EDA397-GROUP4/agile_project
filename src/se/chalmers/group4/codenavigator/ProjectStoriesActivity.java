@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class ProjectStoriesActivity extends Activity {
-
+	public final static int C_PAIR_PROGRAMMERS = 1;
 	private TextView textViewStories;
 	private HashMap<String, GHIssue> storyList;
 	private GHRepository githubRepository;
@@ -46,11 +46,29 @@ public class ProjectStoriesActivity extends Activity {
 		new StoriesLoadTask().execute();
 	}
 
-	public void doShowAllTeamMembers(View v) {
+	private void doShowAllTeamMembers(View v) {
 		Log.d("assigning","show all members clicked");
 		Intent intent = new Intent(this, AssigningpairActivity.class);
 		startActivity(intent);
 	}	
+	
+	public void  doSelectStory(View v) {
+		
+		TextView choice = (TextView)findViewById(R.id.selectedStory);
+		String   tmpChoice = choice.getText().toString();
+		int      theChoice = Integer.parseInt(tmpChoice);
+		
+		switch (theChoice) {
+			case C_PAIR_PROGRAMMERS: {
+				doShowAllTeamMembers(v);
+				break;
+			}
+			default: {
+				Log.d("error","The choice: "+theChoice+" is not implemented yet\n");
+				break;
+			}
+		}
+	}
 	
 	/**
 	 * Private inner class inherited from AsyncTask used for loading the stories

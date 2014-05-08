@@ -47,7 +47,10 @@ public class CommitDetailActivity extends Activity {
 				new DetailedCommitLoadTask().execute();
 		
 	}
-		public void getfile(View v) throws Exception
+	
+	
+	
+	public void getfile(View v) throws Exception
 	{
 		Log.d("file","clicked");
 			Intent intent = new Intent(this, DisplayShowFilesActivity.class);
@@ -61,6 +64,12 @@ public class CommitDetailActivity extends Activity {
 		Log.d("file","startactivity:"+commitId);
 		Log.d("file","ready");
 		startActivity(intent);
+	}
+	
+	public void home(View v) throws Exception
+	{
+//		TODO go back to first page ... OR perhaps the QUIT-button can be removed
+//           as we now have the navigation bar		
 	}
 	
 	private class DetailedCommitLoadTask extends AsyncTask<Void, Void, String> {

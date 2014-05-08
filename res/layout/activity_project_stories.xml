@@ -9,10 +9,11 @@
 	    android:orientation="vertical" >
 	
 	    <EditText
-        android:id="@+id/selectedStory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="5" >
+	        android:id="@+id/selectedStory"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:digits="0123456789"
+	        android:ems="5" >
 
         <requestFocus />
     </EditText>
@@ -23,13 +24,6 @@
         android:layout_height="wrap_content"
         android:text="OK" 
         android:onClick="doSelectStory" />
-    <Button
-        android:id="@+id/memberListButton"
-        android:layout_toRightOf="@+id/buttonOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/showAllTeamMembers" 
-        android:onClick="doShowAllTeamMembers" />
     
 	    <TextView
 	        android:id="@+id/TextViewStories"
