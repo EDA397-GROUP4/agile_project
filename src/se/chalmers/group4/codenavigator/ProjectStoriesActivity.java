@@ -10,9 +10,11 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.PagedIterator;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 public class ProjectStoriesActivity extends Activity {
@@ -44,6 +46,12 @@ public class ProjectStoriesActivity extends Activity {
 		new StoriesLoadTask().execute();
 	}
 
+	public void doShowAllTeamMembers(View v) {
+		Log.d("assigning","show all members clicked");
+		Intent intent = new Intent(this, AssigningpairActivity.class);
+		startActivity(intent);
+	}	
+	
 	/**
 	 * Private inner class inherited from AsyncTask used for loading the stories
 	 * list in a new thread.

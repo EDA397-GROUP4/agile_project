@@ -23,6 +23,13 @@
         android:layout_height="wrap_content"
         android:text="OK" 
         android:onClick="doSelectStory" />
+    <Button
+        android:id="@+id/memberListButton"
+        android:layout_toRightOf="@+id/buttonOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/showAllTeamMembers" 
+        android:onClick="doShowAllTeamMembers" />
     
 	    <TextView
 	        android:id="@+id/TextViewStories"
