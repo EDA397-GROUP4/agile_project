@@ -28,7 +28,6 @@ public class AssigningpairActivity extends Activity {
 
 	private GHRepository         githubRepository;
 	private GitHub 		         githubObject;
-//	private TextView             teamMemberList;
 	
 	// selectable scrollable list
 	private ArrayAdapter<String> adapter;
@@ -52,7 +51,6 @@ public class AssigningpairActivity extends Activity {
 	    this.githubRepository        = app.getGithubRepository(); 
 		
 		// find the layout field for the retrieved member's names
-//		this.teamMemberList = (TextView)findViewById(R.id.team_membersList);	
 	    loadingMemberList = (TextView)findViewById(R.id.loading_membersList);
 		new MemberLoadTask().execute();
 	}
@@ -77,7 +75,6 @@ public class AssigningpairActivity extends Activity {
 	    	
 	 		try {
 	 			// Tell the user that it's loading...
-		    	//TextView loadingmembers = (TextView) findViewById(R.id.team_membersList);
 	 			loadingMemberList.setText(R.string.members_loading);
 	 			loadingMemberList.setVisibility(View.VISIBLE);
 	
@@ -111,32 +108,9 @@ public class AssigningpairActivity extends Activity {
 				Set<GHUser> theMemberList = myTeam.getMembers();
 				Log.d("assigning","number of members: "+theMemberList.size());
 				
-/*				int           i         = 0; // Team member counter
-				StringBuilder finalText = new StringBuilder(); // Project list flat text for the UI
-	 
-				finalText.append("# Navigator : " + myself.getName() + "\n");
-				finalText.append("# Members in team : " + myTeam.getName() + "\n");
-	        	for (GHUser aMember: theMemberList)
-	            {
-	            	Log.d("assigning","In loop...memblerlist nr: "+i);
-	            	Log.d("assigning","githubrepository: "+aMember.getName());
-	            	
-	            	if (! myself.getName().equals(aMember.getName()) ) {    //don't show myself in the list
-		            	i++;
-		            	finalText.append(Integer.toString(i) +"- "+aMember.getName() +"\n");
-	            	}
-	    		}
-	
-	        	// Return the repositories list flat text to be written in the UI
-	            return  finalText.toString();*/
 				int           i         = 0; // Team member counter
-//				StringBuilder finalText = new StringBuilder(); // Project list flat text for the UI
-	 
-//				finalText.append("# Navigator : " + myself.getName() + "\n");
-//				finalText.append("# Members in team : " + myTeam.getName() + "\n");
-				availableProgrammers = new String[theMemberList.size()+1]; //first empty!
+				availableProgrammers       = new String[theMemberList.size()+1]; //first empty!
 				listOfAvailableProgrammers = new ArrayList<String>();
-//				listOfAvailableProgrammers.add(AssigningpairActivity.CHOOSE_PROGRAMMER_HINT);
 	        	for (GHUser aMember: theMemberList)
 	            {
 	            	Log.d("assigning","In loop...memblerlist nr: "+i);
@@ -146,12 +120,9 @@ public class AssigningpairActivity extends Activity {
 		            	availableProgrammers[i] = aMember.getName();
 		            	listOfAvailableProgrammers.add(aMember.getName());
 	            		i++;
-//		            	finalText.append(Integer.toString(i) +"- "+aMember.getName() +"\n");
 	            	}
 	    		}
 	
-	        	// Return the repositories list flat text to be written in the UI
-//	            return  finalText.toString();
 	        	return "";
 			}
 			
@@ -167,11 +138,7 @@ public class AssigningpairActivity extends Activity {
 	    protected void onPostExecute(String result) {
 	    	// Write the result to the UI.
 	    	Log.d("assigning","onPostExecute:" +"result");
-//	    	teamMemberList.setVisibility(View.VISIBLE);
-//	    	TextView loadingmembers = (TextView) findViewById(R.id.loading_team_members);
-//	    	loadingmembers.setText("");
-	    	        	
-//	    	teamMemberList.setText(result);
+
 	    	setUpCurrencyMemberListSpinner();    	
 	    	
 	    	Log.d("assigning","after setUpCurrentMemberList.....");
@@ -184,16 +151,16 @@ public class AssigningpairActivity extends Activity {
 	  	   
 	    	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 	    		choosenProgrammerIndex = memberListSpinner.getSelectedItemPosition();
-	    		TextView navigator  = (TextView)findViewById(R.id.navigator);
+	    		TextView navigator     = (TextView)findViewById(R.id.navigator);
 	    		navigator.setText(AssigningpairActivity.NAVIGATOR_LABEL+theNavigator);
-	    		TextView programmer = (TextView)findViewById(R.id.programmer);
+	    		TextView programmer    = (TextView)findViewById(R.id.programmer);
 	    		programmer.setText(AssigningpairActivity.PROGRAMMER_LABEL+availableProgrammers[choosenProgrammerIndex]);
 	    		loadingMemberList.setText(R.string.selectedPair);
 	    	}
 	    	
 	    	public void onNothingSelected(AdapterView<?> parent) {
 	    	}
-	    }
+	    }  // end of inner class - MemberListListener
 	 
 }
     	
