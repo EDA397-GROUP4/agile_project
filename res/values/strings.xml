@@ -28,6 +28,7 @@
     <string name="title_activity_assigningpair">AssigningpairActivity</string>
     <string name="members_loading">Loading members List</string>
     <string name="showAllTeamMembers">Show members</string>
+    <string name="selectedPair">Selected pair:</string>
     
 
 </resources>

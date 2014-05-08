@@ -1,6 +1,8 @@
 package se.chalmers.group4.codenavigator;
 
+import java.util.ArrayList;
 import java.util.Set;
+
 import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GHTeam;
@@ -12,15 +14,31 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class AssigningpairActivity extends Activity {
 
+	public static final String NAVIGATOR_LABEL  = "Navigator : ";
+	public static final String PROGRAMMER_LABEL = "Programmer: ";
+	public static final String CHOOSE_PROGRAMMER_HINT = "Choose programmer from the list";
 
-	private GHRepository githubRepository;
-	private GitHub 		 githubObject;
-	private TextView     teamMemberList;
-
+	private GHRepository         githubRepository;
+	private GitHub 		         githubObject;
+//	private TextView             teamMemberList;
+	
+	// selectable scrollable list
+	private ArrayAdapter<String> adapter;
+	private Spinner              memberListSpinner;
+	private int	                 choosenProgrammerIndex;
+	private String[]             availableProgrammers;
+	private TextView             loadingMemberList;
+	private ArrayList<String>	 listOfAvailableProgrammers;
+	private String               theNavigator;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,10 +52,23 @@ public class AssigningpairActivity extends Activity {
 	    this.githubRepository        = app.getGithubRepository(); 
 		
 		// find the layout field for the retrieved member's names
-		this.teamMemberList = (TextView)findViewById(R.id.team_membersList);	
-	
+//		this.teamMemberList = (TextView)findViewById(R.id.team_membersList);	
+	    loadingMemberList = (TextView)findViewById(R.id.loading_membersList);
 		new MemberLoadTask().execute();
 	}
+	
+	private void setUpCurrencyMemberListSpinner() {
+	    	
+	    	// Define spinner as a drop-down list
+	    	adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, listOfAvailableProgrammers);
+	    	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+	    	    	
+	    	// Find the all spinners and connect to adapter to it, and define listener
+	    	memberListSpinner = (Spinner)findViewById(R.id.team_membersList);
+	    	memberListSpinner.setAdapter(adapter);
+	    	memberListSpinner.setOnItemSelectedListener(new MemberListListener());
+	    	memberListSpinner.setVisibility(View.VISIBLE);	        
+	    }
 	
 	
 	 private class MemberLoadTask extends AsyncTask<Void, Void, String> {
@@ -46,9 +77,9 @@ public class AssigningpairActivity extends Activity {
 	    	
 	 		try {
 	 			// Tell the user that it's loading...
-		    	TextView loadingmembers = (TextView) findViewById(R.id.team_membersList);
-		    	loadingmembers.setText(R.string.members_loading);
-		    	loadingmembers.setVisibility(View.VISIBLE);
+		    	//TextView loadingmembers = (TextView) findViewById(R.id.team_membersList);
+	 			loadingMemberList.setText(R.string.members_loading);
+	 			loadingMemberList.setVisibility(View.VISIBLE);
 	
 	 		   	// From the GitHubRepository we can get a list of all teams
 	 			Set<GHTeam> allTheTeams = githubRepository.getTeams();
@@ -60,7 +91,8 @@ public class AssigningpairActivity extends Activity {
 				else {
 					Log.d("assigning"," myself is:"+myself.getName());
 				}
-							
+				theNavigator = myself.getName();
+				
 				GHTeam   myTeam = null;
 				// Find my team
 				for ( GHTeam aTeam: allTheTeams ) {
@@ -79,7 +111,7 @@ public class AssigningpairActivity extends Activity {
 				Set<GHUser> theMemberList = myTeam.getMembers();
 				Log.d("assigning","number of members: "+theMemberList.size());
 				
-				int           i         = 0; // Team member counter
+/*				int           i         = 0; // Team member counter
 				StringBuilder finalText = new StringBuilder(); // Project list flat text for the UI
 	 
 				finalText.append("# Navigator : " + myself.getName() + "\n");
@@ -96,7 +128,31 @@ public class AssigningpairActivity extends Activity {
 	    		}
 	
 	        	// Return the repositories list flat text to be written in the UI
-	            return  finalText.toString();
+	            return  finalText.toString();*/
+				int           i         = 0; // Team member counter
+//				StringBuilder finalText = new StringBuilder(); // Project list flat text for the UI
+	 
+//				finalText.append("# Navigator : " + myself.getName() + "\n");
+//				finalText.append("# Members in team : " + myTeam.getName() + "\n");
+				availableProgrammers = new String[theMemberList.size()+1]; //first empty!
+				listOfAvailableProgrammers = new ArrayList<String>();
+//				listOfAvailableProgrammers.add(AssigningpairActivity.CHOOSE_PROGRAMMER_HINT);
+	        	for (GHUser aMember: theMemberList)
+	            {
+	            	Log.d("assigning","In loop...memblerlist nr: "+i);
+	            	Log.d("assigning","githubrepository: "+aMember.getName());
+	            	
+	            	if (!theNavigator.equals(aMember.getName()) ) {    //don't show myself in the list
+		            	availableProgrammers[i] = aMember.getName();
+		            	listOfAvailableProgrammers.add(aMember.getName());
+	            		i++;
+//		            	finalText.append(Integer.toString(i) +"- "+aMember.getName() +"\n");
+	            	}
+	    		}
+	
+	        	// Return the repositories list flat text to be written in the UI
+//	            return  finalText.toString();
+	        	return "";
 			}
 			
 			catch (Exception e) {
@@ -111,14 +167,33 @@ public class AssigningpairActivity extends Activity {
 	    protected void onPostExecute(String result) {
 	    	// Write the result to the UI.
 	    	Log.d("assigning","onPostExecute:" +"result");
-	    	teamMemberList.setVisibility(View.VISIBLE);
+//	    	teamMemberList.setVisibility(View.VISIBLE);
 //	    	TextView loadingmembers = (TextView) findViewById(R.id.loading_team_members);
 //	    	loadingmembers.setText("");
 	    	        	
-	    	teamMemberList.setText(result);
+//	    	teamMemberList.setText(result);
+	    	setUpCurrencyMemberListSpinner();    	
+	    	
+	    	Log.d("assigning","after setUpCurrentMemberList.....");
 	    	
 		}
 	}  // end of inner class - MemberLoadTask
+
+	 
+	    private class MemberListListener implements OnItemSelectedListener {
+	  	   
+	    	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+	    		choosenProgrammerIndex = memberListSpinner.getSelectedItemPosition();
+	    		TextView navigator  = (TextView)findViewById(R.id.navigator);
+	    		navigator.setText(AssigningpairActivity.NAVIGATOR_LABEL+theNavigator);
+	    		TextView programmer = (TextView)findViewById(R.id.programmer);
+	    		programmer.setText(AssigningpairActivity.PROGRAMMER_LABEL+availableProgrammers[choosenProgrammerIndex]);
+	    		loadingMemberList.setText(R.string.selectedPair);
+	    	}
+	    	
+	    	public void onNothingSelected(AdapterView<?> parent) {
+	    	}
+	    }
 	 
 }
     	
