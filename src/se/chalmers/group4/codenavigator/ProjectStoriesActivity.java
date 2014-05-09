@@ -15,6 +15,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import android.widget.EditText;
+
 import android.widget.TextView;
 
 public class ProjectStoriesActivity extends Activity {
@@ -22,6 +25,8 @@ public class ProjectStoriesActivity extends Activity {
 	private TextView textViewStories;
 	private HashMap<String, GHIssue> storyList;
 	private GHRepository githubRepository;
+	private GHIssue story;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +50,25 @@ public class ProjectStoriesActivity extends Activity {
 		// (network activities cannot be done in the main thread)
 		new StoriesLoadTask().execute();
 	}
-
-	private void doShowAllTeamMembers(View v) {
-		Log.d("assigning","show all members clicked");
-		Intent intent = new Intent(this, AssigningpairActivity.class);
-		startActivity(intent);
-	}	
 	
-	public void  doSelectStory(View v) {
+	
+    public void doSelectStory(View v) throws Exception {
+
+		// Retrieve the EditText in the UI
+		EditText selectedStory = (EditText)findViewById(R.id.selectedStory);
+
+		String storyId = selectedStory.getText().toString();
+
+		this.story = this.storyList.get(storyId);
 		
-		TextView choice = (TextView)findViewById(R.id.selectedStory);
-		String   tmpChoice = choice.getText().toString();
-		int      theChoice = Integer.parseInt(tmpChoice);
+		// Check if this given ID corresponds to a listed story
+		if(this.story == null) {
+			// Doesn't exist error
+			// TODO display an error message ???
+			return;
+		}
+		
+		int      theChoice = Integer.parseInt(storyId);
 		
 		switch (theChoice) {
 			case C_PAIR_PROGRAMMERS: {
@@ -68,7 +80,26 @@ public class ProjectStoriesActivity extends Activity {
 				break;
 			}
 		}
+		
+		
+		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
+		app.setCurrentStory(story);
+		// Start the StoryView Activity
+		Intent intent = new Intent(this, StoryViewActivity.class);
+
+		startActivity(intent);
+
 	}
+    
+
+
+	private void doShowAllTeamMembers(View v) {
+		Log.d("assigning","show all members clicked");
+		Intent intent = new Intent(this, AssigningpairActivity.class);
+		startActivity(intent);
+	}	
+	
+
 	
 	/**
 	 * Private inner class inherited from AsyncTask used for loading the stories
