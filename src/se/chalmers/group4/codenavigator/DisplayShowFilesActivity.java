@@ -11,7 +11,10 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.PagedIterator;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +34,9 @@ public class DisplayShowFilesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d("file","startingoncreate="+"");
-		
+		ActionBar bar = getActionBar();
+		bar.setTitle("Files");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		
 		//setContentView(R.layout.activity_display_show_files);
 		NavigationBar.load_navbar(this,4);

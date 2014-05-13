@@ -1,9 +1,11 @@
 package se.chalmers.group4.codenavigator;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +20,9 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
-		
+		ActionBar bar = getActionBar();
+		bar.setTitle("Main");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		//setContentView(R.layout.activity_main);
 
 	}
