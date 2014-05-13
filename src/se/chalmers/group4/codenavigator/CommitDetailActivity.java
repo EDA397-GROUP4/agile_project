@@ -5,8 +5,11 @@ import org.kohsuke.github.GHMyself;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +29,9 @@ public class CommitDetailActivity extends Activity {
 		//setContentView(R.layout.activity_commit_detail);
 		NavigationBar.load_navbar(this,4);
 		NavigationBar.insert_main_layout(this, R.layout.activity_commit_detail);
-		
+		ActionBar bar = getActionBar();
+		bar.setTitle("Commit Details");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		// Try to read the sent CommitId
 				commitId = getIntent().getStringExtra("COMMIT_ID");
 				Log.d("tag","recieved ID="+commitId);

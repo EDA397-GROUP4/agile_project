@@ -133,12 +133,15 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.PagedIterator;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -161,7 +164,9 @@ public class ProjectCommitActivity extends Activity {
 		//setContentView(R.layout.navbar_layout);
 		NavigationBar.load_navbar(this,4);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_commit);
-
+		ActionBar bar = getActionBar();
+		bar.setTitle("Commits");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		// Commit List TextView (ui)
 		this.textViewCommits = (TextView) findViewById(R.id.TextViewCommits);
 

@@ -1,9 +1,12 @@
 package se.chalmers.group4.codenavigator;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +21,9 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.login_activity);
+		ActionBar bar = getActionBar();
+		bar.setTitle("Login");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 	}
 	
 	

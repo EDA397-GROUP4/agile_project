@@ -9,15 +9,16 @@ import org.kohsuke.github.GHIssueState;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.PagedIterator;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import android.widget.EditText;
-
 import android.widget.TextView;
 
 public class ProjectStoriesActivity extends Activity {
@@ -34,7 +35,9 @@ public class ProjectStoriesActivity extends Activity {
 		//setContentView(R.layout.activity_project_stories);
 		NavigationBar.load_navbar(this,3);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_stories);
-
+		ActionBar bar = getActionBar();
+		bar.setTitle("Stories");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		// Story List TextView (ui)
 		this.textViewStories = (TextView) findViewById(R.id.TextViewStories);
 

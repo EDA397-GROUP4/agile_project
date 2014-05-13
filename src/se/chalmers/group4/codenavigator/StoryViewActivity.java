@@ -8,8 +8,11 @@ import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueComment;
 
 import se.chalmers.group4.codenavigator.R.id;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.LabeledIntent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -24,6 +27,9 @@ public class StoryViewActivity extends Activity {
 
 		NavigationBar.load_navbar(this,4);
 		NavigationBar.insert_main_layout(this, R.layout.story_layout);
+		ActionBar bar = getActionBar();
+		bar.setTitle("Stories");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
 		story = app.getCurrentStory();
