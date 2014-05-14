@@ -36,6 +36,8 @@ public class LoginActivity extends Activity {
 	public void doLogin(View v) throws Exception {
 		Log.d("Tag", "Click on Login button");
 		
+		swapLoginLoading(false);
+		
 		// Retrieve the EditText in the UI
 		EditText userET = (EditText)findViewById(R.id.editText1);
 		EditText passET = (EditText)findViewById(R.id.editText2);
@@ -49,7 +51,19 @@ public class LoginActivity extends Activity {
 		new ConnectionTask(user,pass).execute();
 	}
 	
-
+	private void swapLoginLoading(boolean showLogin) {
+		View progressbar = findViewById(R.id.ProgressBarLogin);
+		View loginbutton = findViewById(R.id.button1);
+		
+		if(showLogin) {
+			progressbar.setVisibility(View.GONE);
+			loginbutton.setVisibility(View.VISIBLE);
+		}
+		else {
+			progressbar.setVisibility(View.VISIBLE);
+			loginbutton.setVisibility(View.GONE);
+		}
+	}
 
     /**
      * Start the ProjectList Activity
@@ -150,10 +164,12 @@ public class LoginActivity extends Activity {
         			
         		case ERROR_CREDENTIALS : 
         			showErrorMessage("Wrong user or password");
+        			swapLoginLoading(true);
         			break;
         			
         		case ERROR_EXCEPTION :
         			showErrorMessage("Unexpected error during connection");
+        			swapLoginLoading(true);
         			break;
         	}
        }

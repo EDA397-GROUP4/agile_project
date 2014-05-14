@@ -11,7 +11,6 @@ import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.PagedIterator;
 
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.ActionBar;
@@ -26,13 +25,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ProjectListActivity extends Activity {
 	private GitHub githubObject;
 	private ProjectAdapter projectAdapter;
-	private TextView textViewMessage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,7 @@ public class ProjectListActivity extends Activity {
 		bar.setTitle("Projects");
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		
-		// Textview to display various messages	
-		this.textViewMessage = (TextView)findViewById(R.id.TextViewProjectsMessage);
-		
+
 		// Get the global Github Object from the app class
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
 		this.githubObject = app.getGithubObject();
@@ -84,7 +82,11 @@ public class ProjectListActivity extends Activity {
 	 * Save this repository in the main App class
 	 * and starts a ProjectCommitActivity
 	 */
-    public void selectProject(GHRepository repo) throws Exception {
+    private void selectProject(GHRepository repo) throws Exception {
+    	ListView listview = (ListView)findViewById(R.id.listview_project);
+    	listview.setVisibility(View.GONE);
+    	showInformation("Loading selected project...", true);
+    	
 		// Save this new GitHub Repository in the Application class 
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
 		app.setGithubRepository(repo);
@@ -94,7 +96,24 @@ public class ProjectListActivity extends Activity {
 		startActivity(intent);
 	}
     
-
+    private void showInformation(String message, boolean loading) {
+    	TextView message_view = (TextView)findViewById(R.id.TextViewProjectsMessage);
+    	ProgressBar loading_view = (ProgressBar)findViewById(R.id.ProgressBarProject);
+    	LinearLayout layout_view = (LinearLayout)findViewById(R.id.LayoutProjectInfo);
+    	message_view.setText(message);
+    	if(loading) {
+    		loading_view.setVisibility(View.VISIBLE);
+    	}
+    	else {
+    		loading_view.setVisibility(View.GONE);
+    	}
+    	layout_view.setVisibility(View.VISIBLE);
+    }
+    
+    private void hideInformation() {
+    	LinearLayout layout_view = (LinearLayout)findViewById(R.id.LayoutProjectInfo);
+    	layout_view.setVisibility(View.GONE);
+    }
 	
     /**
 	 * Private inner class inherited from AsyncTask
@@ -189,13 +208,13 @@ public class ProjectListActivity extends Activity {
         	
         	// Check if the first element is Error type
         	if(result.get(0).isError()) {
-        		// Write the error in the message textView and don't display results
-        		textViewMessage.setText(result.get(0).getText());
+        		// Write the error in the information box and don't display results
+        		showInformation(result.get(0).getText(), false);
         	}
         	// If all is OK
         	else {
-        		// Hide the message textview
-        		textViewMessage.setVisibility(View.GONE);
+        		// Hide the infomation box
+        		hideInformation();
         		// Display all the results
         		projectAdapter.addAll(result);
         	}
