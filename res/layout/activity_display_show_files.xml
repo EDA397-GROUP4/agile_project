@@ -8,21 +8,19 @@
 
 	    android:orientation="vertical"
 	    tools:context=".DisplayShowFilesActivity" >
-	 <TextView
-		        android:id="@+id/ViewFiles"
-		        android:layout_width="fill_parent"
-		        android:layout_height="fill_parent"
-		        android:text="@string/file_loading" />
-		    
-		    <TextView
-	        android:id="@+id/ViewFilesList"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-
-	        android:layout_marginRight="55dp"
-	        android:visibility="invisible"
-	        android:text="@string/NewFiles_available" />
-		    
-	    
+		<TextView
+			android:id="@+id/ViewFiles"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:text="@string/file_loading" />
+			    
+	    <TextView
+			android:id="@+id/ViewFilesList"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"		
+			android:layout_marginRight="55dp"
+			android:visibility="invisible"
+			android:text="@string/NewFiles_available" />		    	    
 	</LinearLayout>
+	
 </ScrollView>

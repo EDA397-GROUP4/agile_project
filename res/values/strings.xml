@@ -10,6 +10,7 @@
     <string name="title_activity_project_list">ProjectListActivity</string>
     <string name="projects_loading">Loading projects list…</string>
     <string name="commits_loading">Loading commits list…</string>
+    <string name="commit_details_loading">Commit details loading</string>
     <string name="stories_loading">Loading stories list…</string>
     <string name="file_loading">Loading file list…</string>
     <string name="title_activity_project_commit">ProjectCommitActivity</string>

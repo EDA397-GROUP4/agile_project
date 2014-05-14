@@ -1,28 +1,21 @@
 package se.chalmers.group4.codenavigator;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import org.kohsuke.github.GHCommit;
-import org.kohsuke.github.GHMyself;
-import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
-import org.kohsuke.github.PagedIterator;
 
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
 public class DisplayShowFilesActivity extends Activity {
 	
 	private GHRepository githubRepository;
- 	private GitHub 		 githubObject;
  	private GHCommit thecommit = null;
  	private List <GHCommit.File> thefilelist;
  	private TextView fileviewProjects;
@@ -80,16 +73,8 @@ public class DisplayShowFilesActivity extends Activity {
                 	i++;
                 	finalText.append(Integer.toString(i) +"- "+ fileitem.getFileName() + "\n");
             	
-
         		}
-            	
-            	
-            	
-
-            		
-            	      
-            	
-
+ 
             	// Return the repositories list flat text to be written in the UI
                 return  finalText.toString();
     		}
@@ -109,12 +94,10 @@ public class DisplayShowFilesActivity extends Activity {
         	TextView loadingfiles = (TextView) findViewById(R.id.ViewFiles);
         	loadingfiles.setText("");
         	        	
-             	fileviewProjects.setText(result);
+            fileviewProjects.setText(result);
         	
         	}
         		
-        	}
-
-    
+       	}
 
 }

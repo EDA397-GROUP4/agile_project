@@ -1,12 +1,12 @@
 package se.chalmers.group4.codenavigator;
 
+import java.util.List;
+
 import org.kohsuke.github.GHCommit;
-import org.kohsuke.github.GHMyself;
+import org.kohsuke.github.GHCommitStatus;
 import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,11 +14,11 @@ import android.view.View;
 import android.widget.TextView;
 
 public class CommitDetailActivity extends Activity {
-	private TextView     textViewCommitId;
-	private TextView     textViewCommitDetails;
-    private String       commitId;
- 	private GHRepository githubRepository;
- 	private GitHub 		 githubObject;
+    private String               commitId;
+ 	private GHRepository         githubRepository;
+ 	private String               detailedCommitInformation;
+	private List <GHCommit.File> thefilelist;
+ 	private TextView             fileviewProjects;
  	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,72 +28,54 @@ public class CommitDetailActivity extends Activity {
 		NavigationBar.insert_main_layout(this, R.layout.activity_commit_detail);
 		
 		// Try to read the sent CommitId
-				commitId = getIntent().getStringExtra("COMMIT_ID");
-				Log.d("tag","recieved ID="+commitId);
-
-				// Show the commitId to retrieve details about		
-				textViewCommitId = (TextView)findViewById(R.id.textCommitId);
-				textViewCommitId.setText(commitId);
-
+		Log.d("tag","start of commitdetailedactivity innan hämta commit_id");
+		commitId = getIntent().getStringExtra("COMMIT_ID");
+		Log.d("tag","recieved ID="+commitId);
 
 				
-				CodeNavigatorApplication app              = (CodeNavigatorApplication)getApplication();   
-		        this.githubRepository = app.getGithubRepository();    
-				Log.d("tag","githubRepository: "+githubRepository)	;	
-				this.githubObject           = app.getGithubObject();
-		        
-				// Create and launch the ProjectsLoad AsyncTask
-				// (network activities cannot be done in the main thread)
-				new DetailedCommitLoadTask().execute();
+		CodeNavigatorApplication app              = (CodeNavigatorApplication)getApplication();   
+		this.githubRepository = app.getGithubRepository();    
+		Log.d("tag","githubRepository: "+githubRepository)	;	
+
+		// Create and launch the ProjectsLoad AsyncTask
+		// (network activities cannot be done in the main thread)
+		new DetailedCommitLoadTask().execute();
 		
 	}
 	
 	
-	
-	public void getfile(View v) throws Exception
-	{
-		Log.d("file","clicked");
-			Intent intent = new Intent(this, DisplayShowFilesActivity.class);
-		
-		if (commitId==null)
-		{
-			commitId="hai";
-			
-		}
-		intent.putExtra("COMMIT_ID", commitId);
-		Log.d("file","startactivity:"+commitId);
-		Log.d("file","ready");
-		startActivity(intent);
-	}
-	
-	public void home(View v) throws Exception
-	{
-//		TODO go back to first page ... OR perhaps the QUIT-button can be removed
-//           as we now have the navigation bar		
-	}
 	
 	private class DetailedCommitLoadTask extends AsyncTask<Void, Void, String> {
 		@Override
 		protected String doInBackground(Void... v) {
 			StringBuilder detailsText = new StringBuilder(); // Commit detail's information flat text for the UI
+			StringBuilder finalText = new StringBuilder();
 			detailsText.append("Detailed information:\n");	            
 			try {
-				Log.d("tag","githubObject: "+githubObject)	;			
-
-				GHMyself myself = githubObject.getMyself();
-				Log.d("tag", "myself "+myself.getName());	            	
 				
-					GHCommit       theCommit     = githubRepository.getCommit(commitId);
-					//////GHCommit theCommit = (GHCommit)allCommitsIter.next();
-					Log.d("tag","theCommit:"+theCommit);
-					
-					// TODO : Fix LastStatus
-					
-					//GHCommitStatus theLastStatus = theCommit.getLastStatus();
+				GHCommit       theCommit     = githubRepository.getCommit(commitId);
+				Log.d("tag","theCommit:"+theCommit);
 
-					detailsText.append("Committer: "+theCommit.getCommitter());
-					detailsText.append(" / Author: "+theCommit.getAuthor() + "\n");
-					
+				// TODO : Fix LastStatus				
+	//			GHCommitStatus theLastStatus = theCommit.getLastStatus();
+	//			detailsText.append("Description: "+theLastStatus.getDescription());
+				detailsText.append("Committer: "+theCommit.getCommitter());
+				detailsText.append(" / Author: "+theCommit.getAuthor() + "\n");
+				detailedCommitInformation = detailsText.toString();
+				
+				// Retrieve file information
+	            finalText = new StringBuilder(); // Comitted filelist flat text for the UI
+		            
+                thefilelist = theCommit.getFiles();
+
+            	finalText.append("# Committed Files\n");
+            	int i = 0;
+            	for (GHCommit.File fileitem: thefilelist)
+                {
+                	Log.d("file",""+i+" : " +fileitem.getFileName());
+                	i++;
+                	finalText.append(Integer.toString(i) +"- "+ fileitem.getFileName() + "\n");          	
+        		}
 			}    		             		
 			catch (Exception e) {
     			// Oops, something bad happened
@@ -102,13 +84,18 @@ public class CommitDetailActivity extends Activity {
     			return "Unexpected exception...";
 			} 
 			Log.d("tag", "leaving DetailedCommitLoadTask.doInBackground..:"+detailsText.toString() );	            	
-	        return detailsText.toString();
+	        return finalText.toString();
         }
         
         @Override
         protected void onPostExecute(String result) {
         	// Write the result to the UI.
-        	((TextView)findViewById(R.id.textViewCommitDetails)).setText(result);
+        	((TextView)findViewById(R.id.textViewCommitDetails)).setText(detailedCommitInformation);
+        	fileviewProjects=(TextView)findViewById(R.id.textViewCommittedFileList);
+        	fileviewProjects.setVisibility(View.VISIBLE);
+        	TextView loadingfiles = (TextView) findViewById(R.id.textViewLoadingFiles);
+        	loadingfiles.setText("");
+        	fileviewProjects.setText(result);
         }
 
     }
