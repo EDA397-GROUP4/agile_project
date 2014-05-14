@@ -9,6 +9,7 @@
     <string name="login">Login</string>
     <string name="title_activity_project_list">ProjectListActivity</string>
     <string name="projects_loading">Loading projects list…</string>
+    <string name="projects_select">Select a project:</string>
     <string name="commits_loading">Loading commits list…</string>
     <string name="stories_loading">Loading stories list…</string>
     <string name="file_loading">Loading file list…</string>
