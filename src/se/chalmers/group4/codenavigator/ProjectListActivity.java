@@ -13,6 +13,7 @@ import org.kohsuke.github.PagedIterator;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
@@ -83,7 +84,7 @@ public class ProjectListActivity extends Activity {
 	 * and starts a ProjectCommitActivity
 	 */
     private void selectProject(GHRepository repo) throws Exception {
-    	ListView listview = (ListView)findViewById(R.id.listview_project);
+    	final ListView listview = (ListView)findViewById(R.id.listview_project);
     	listview.setVisibility(View.GONE);
     	showInformation("Loading selected project...", true);
     	
@@ -94,6 +95,13 @@ public class ProjectListActivity extends Activity {
 		// Start the ProjectCommit Activity
 		Intent intent = new Intent(this, ProjectCommitActivity.class);
 		startActivity(intent);
+		
+		new Handler().postDelayed(new Runnable() {
+            public void run() {
+            	hideInformation();
+            	listview.setVisibility(View.VISIBLE);
+            }
+        }, 4000);
 	}
     
     private void showInformation(String message, boolean loading) {
