@@ -48,7 +48,7 @@ public class AssigningpairActivity extends Activity {
 		bar.setTitle("Assigning Pairs");
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));	
 		//setContentView(R.layout.activity_display_show_files);
-		NavigationBar.load_navbar(this,3);
+		NavigationBar.load_navbar(this,2);
 		NavigationBar.insert_main_layout(this, R.layout.activity_assigningpair);
 		
 		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();   

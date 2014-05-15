@@ -17,26 +17,28 @@ public class NavigationBar {
 	public static void load_navbar(final Activity act, int selectedButtonNumber) {
 		act.setContentView(R.layout.navbar_layout);
 		RadioGroup radioGroup = (RadioGroup) act.findViewById(R.id.navbar_radiogroup);
-		RadioButton rbHome = (RadioButton) act.findViewById(R.id.btnHome);
-		RadioButton rbBranches = (RadioButton) act.findViewById(R.id.btnBranches);
-		RadioButton rbStories = (RadioButton) act.findViewById(R.id.btnStories);
 		RadioButton rbCommits = (RadioButton) act.findViewById(R.id.btnCommits);
+		RadioButton rbStories = (RadioButton) act.findViewById(R.id.btnStories);
+		RadioButton rbProjects = (RadioButton) act.findViewById(R.id.btnProjects);
+		RadioButton rbLogOut = (RadioButton) act.findViewById(R.id.btnLogOut);
 		
 		// Highlight the button corresponding to the current activities
 		RadioButton rbToBeSelected;
 		
 		switch (selectedButtonNumber) {
 		case 1:
-			rbToBeSelected = rbHome;
+
+			rbToBeSelected = rbCommits;
 			break;
 		case 2:
-			rbToBeSelected = rbBranches;
-			break;
-		case 3:
 			rbToBeSelected = rbStories;
 			break;
+		case 3:
+			rbToBeSelected = rbProjects;
+			break;
 		case 4:
-			rbToBeSelected = rbCommits;
+			rbToBeSelected = rbLogOut;
+
 			break;
 		default:
 			rbToBeSelected = null;
@@ -48,7 +50,7 @@ public class NavigationBar {
 		}
 			
 		// Set the click event on buttons
-		rbHome.setOnClickListener(new OnClickListener() {
+		rbProjects.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intentHome = new Intent(act, ProjectListActivity.class);
@@ -56,10 +58,11 @@ public class NavigationBar {
 			}
 		});
 
-		rbBranches.setOnClickListener(new OnClickListener() {
+		rbLogOut.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showErrorMessage("Branches", act);
+				Intent intentHome = new Intent(act, LoginActivity.class);
+	    		act.startActivity(intentHome);
 			}
 		});
 		

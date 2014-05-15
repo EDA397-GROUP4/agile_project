@@ -162,7 +162,7 @@ public class ProjectCommitActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.navbar_layout);
-		NavigationBar.load_navbar(this,4);
+		NavigationBar.load_navbar(this,1);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_commit);
 		ActionBar bar = getActionBar();
 		bar.setTitle("Commits");

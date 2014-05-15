@@ -27,7 +27,7 @@ public class CommitDetailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_commit_detail);
-		NavigationBar.load_navbar(this,4);
+		NavigationBar.load_navbar(this,1);
 		NavigationBar.insert_main_layout(this, R.layout.activity_commit_detail);
 		ActionBar bar = getActionBar();
 		bar.setTitle("Commit Details");

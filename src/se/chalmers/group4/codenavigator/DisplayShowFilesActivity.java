@@ -39,7 +39,7 @@ public class DisplayShowFilesActivity extends Activity {
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		
 		//setContentView(R.layout.activity_display_show_files);
-		NavigationBar.load_navbar(this,4);
+		NavigationBar.load_navbar(this,1);
 		NavigationBar.insert_main_layout(this, R.layout.activity_display_show_files);
 		
 		this.fileviewProjects=(TextView)findViewById(R.id.ViewFilesList);
