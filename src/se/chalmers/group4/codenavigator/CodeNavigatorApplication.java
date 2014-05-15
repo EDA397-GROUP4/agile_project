@@ -1,6 +1,8 @@
 package se.chalmers.group4.codenavigator;
 
 
+import java.util.ArrayList;
+
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHRepository;
 import org.kohsuke.github.GitHub;
@@ -14,7 +16,7 @@ public class CodeNavigatorApplication extends Application {
 	private GitHub githubObject;
 	private Long updateTime; 
 	private GHIssue story;
-
+    private ArrayList<String> favoriteFiles;
 
     public Long getUpdateTime() {
 		return updateTime;
@@ -49,6 +51,13 @@ public class CodeNavigatorApplication extends Application {
 		return this.story;
 	}
 
-    
+	public ArrayList<String> getFavoriteFiles() {
+		if (favoriteFiles==null) favoriteFiles = new ArrayList<String>();
+		return favoriteFiles;
+	}
+
+	public void setFavoriteFiles(ArrayList<String> favoriteFiles) {
+		this.favoriteFiles = favoriteFiles;
+	}
 
 }

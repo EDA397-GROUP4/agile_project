@@ -14,7 +14,6 @@ import org.kohsuke.github.GHRepository;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -108,8 +107,49 @@ public class SelectingFileActivity extends Activity {
 
     }
 
-    
-    
+ 
+    private void saveSelectedFiles( List<String> filesToSave ) {
+//        int numberOfSelectedFiles        = filesToSave.size();
+        
+		CodeNavigatorApplication app = (CodeNavigatorApplication) getApplication();
+		ArrayList<String> interestingFiles = app.getFavoriteFiles();
+//        SharedPreferences preferences = getPreferences( MODE_PRIVATE );
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putInt(TAG_NUMBER_OF_FILES, numberOfSelectedFiles);
+//        editor.clear();  //delete all old filenames...
+// // putStringSet(String key, Set<String> values) finns även en getStringSet
+// // remove(String key)
+//        int i = 0;
+        for (String filename: filesToSave) {
+        	interestingFiles.add(filename);
+//     	   String tmpFileTag = TAG_FILE_NAME+i;
+//     	   editor.putString(tmpFileTag, filename);
+//     	   i++;
+        }
+//        editor.commit();
+        app.setFavoriteFiles(interestingFiles);
+     }
+     
+     public ArrayList<String> getSavedFiles() {
+ 		CodeNavigatorApplication app = (CodeNavigatorApplication) getApplication();
+ 		ArrayList<String> interestingFiles = app.getFavoriteFiles();
+//    	ArrayList<String> theSavedFiles = new ArrayList<String>();
+//     	
+//         SharedPreferences preferences = getPreferences( MODE_PRIVATE );
+////         SharedPreferences..Editor editor = preferences.edit();
+//     	// Get number of saved files
+//         int numberOfSelectedFiles = preferences.getInt(TAG_NUMBER_OF_FILES,0);
+//         for ( int i = 0; i < numberOfSelectedFiles; i++  ) {
+//            String tmpFileTag = TAG_FILE_NAME+i;
+//            String tmpSavedFileName = preferences.getString(tmpFileTag, "");
+//            theSavedFiles.add(tmpSavedFileName);
+//         }
+     	
+//     	return theSavedFiles;
+ 		return interestingFiles;
+     }
+
+ /*   
     private void saveSelectedFiles( List<String> filesToSave ) {
        int numberOfSelectedFiles        = filesToSave.size();
        
@@ -143,7 +183,7 @@ public class SelectingFileActivity extends Activity {
     	
     	return theSavedFiles;
     }
-    
+*/    
     
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
