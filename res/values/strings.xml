@@ -8,14 +8,22 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="title_activity_project_list">ProjectListActivity</string>
+<!-- <<<<<<< HEAD -->
     <string name="projects_loading">Loading project list…</string>
     <string name="projects_select">Select a project:</string>
     <string name="commits_loading">Loading commit list…</string>
     <string name="commits_select">Select a commit:</string>
-    <string name="stories_loading">Loading stories list…</string>
-    <string name="file_loading">Loading file list…</string>
+    <string name="commit_details_loading">Commit details loading</string>
+<!-- ======= -->
+<!--     <string name="projects_loading">Loading projects list…</string> -->
+<!--     <string name="commits_loading">Loading commits list…</string> -->
+<!--     <string name="commit_details_loading">Commit details loading</string> -->
+<!-- >>>>>>> refs/heads/sprint4_selectingFiles -->
+    <string name="stories_loading">Loading story list…</string>
+    <string name="files_loading">Loading file list…</string>
+    <string name="files_select">Select files:</string>
     <string name="title_activity_project_commit">ProjectCommitActivity</string>
-    <string name="title_activity_commit_detail">CommitDetailActivity</string>
+    <string name="title_activity_commit_detail">Commit Details</string>
     <string name="title_activity_commit">CommitActivity</string>
     <string name="aCommitButton">CommitActivity</string>
     <string name="aCommitActivity">something</string>
@@ -31,73 +39,10 @@
     <string name="members_loading">Loading members List</string>
     <string name="showAllTeamMembers">Show members</string>
     <string name="selectedPair">Selected pair:</string>
-        <string name="story_loading">Loading story…</string>
-    
-    
-
+    <string name="story_loading">Loading story…</string>
+    <string name="title_activity_selecting_file">SelectingFileActivity</string>
+	<string name="save_selected_files">Save selected files</string>
+	<string name="rowDescription">File name</string>
 </resources>
-<!-- ======= -->
 
-<!-- <?xml version="1.0" encoding="utf-8"?> -->
-<!-- <resources> -->
-
-<!--     <string name="app_name">Code Navigator</string> -->
-<!--     <string name="hello_world">Hello world!</string> -->
-<!--     <string name="action_settings">Settings</string> -->
-<!--     <string name="username">Username</string> -->
-<!--     <string name="password">Password</string> -->
-<!--     <string name="login">Login</string> -->
-<!--     <string name="title_activity_project_list">ProjectListActivity</string> -->
-<!--     <string name="projects_loading">Loading projects list…</string> -->
-<!--     <string name="commits_loading">Loading commits list…</string> -->
-<!--     <string name="stories_loading">Loading stories list…</string> -->
-<!--     <string name="story_loading">Loading story…</string> -->
-<!-- 	<string name="file_loading">Loading file list…</string> -->
-<!--     <string name="title_activity_project_commit">ProjectCommitActivity</string> -->
-<!--     <string name="title_activity_commit_detail">CommitDetailActivity</string> -->
-<!--     <string name="title_activity_commit">CommitActivity</string> -->
-<!--     <string name="aCommitButton">CommitActivity</string> -->
-<!--     <string name="aCommitActivity">something</string> -->
-<!--     <string name="commits_update">New Commits Available</string> -->
-<!-- 	<string name="NewFiles_available">New Files Available</string> -->
-<!--     <string name="aCommitOK">Commit</string> -->
-<!--     <string name="quitButton">Quit</string> -->
-<!--     <string name="title_activity_project_stories">ProjectStoriesActivity</string> -->
-<!-- 	<string name="title_activity_display_show_files">DisplayShowFilesActivity</string> -->
-<!--     <string name="fileButton">file</string > -->
-<!--     <string name="files">hereismyfiles</string> -->
-
-<!-- </resources> -->
-
-<!-- ======= -->
-<!-- <?xml version="1.0" encoding="utf-8"?> -->
-<!-- <resources> -->
-
-
-<!-- <string name="app_name">Code Navigator</string> -->
-<!-- <string name="hello_world">Hello world!</string> -->
-<!-- <string name="action_settings">Settings</string> -->
-<!-- <string name="username">Username</string> -->
-<!-- <string name="password">Password</string> -->
-<!-- <string name="login">Login</string> -->
-<!-- <string name="title_activity_project_list">ProjectListActivity</string> -->
-<!-- <string name="projects_loading">Loading projects list…</string> -->
-<!-- <string name="commits_loading">Loading commits list…</string> -->
-<!-- <string name="file_loading">Loading file list…</string> -->
-<!-- <string name="title_activity_project_commit">ProjectCommitActivity</string> -->
-<!-- <string name="title_activity_commit_detail">CommitDetailActivity</string> -->
-<!-- <string name="title_activity_commit">CommitActivity</string> -->
-<!-- <string name="aCommitButton">CommitActivity</string> -->
-<!-- <string name="aCommitActivity">something</string> -->
-<!-- <string name="commits_update">New Commits Available</string> -->
-<!-- <string name="NewFiles_available">New Files Available</string> -->
-<!-- <string name="aCommitOK">Commit</string> -->
-<!-- <string name="quitButton">Quit</string> -->
-<!-- <string name="title_activity_display_show_files">DisplayShowFilesActivity</string> -->
-<!-- <string name="fileButton">file</string > -->
-<!-- <string name="files">hereismyfiles</string> -->
-
-
-<!-- </resources> -->
-<!-- >>>>>>> refs/remotes/Github/master -->
 

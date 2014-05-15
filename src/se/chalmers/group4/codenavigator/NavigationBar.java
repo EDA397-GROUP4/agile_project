@@ -60,7 +60,10 @@ public class NavigationBar {
 		rbBranches.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				showErrorMessage("Branches", act);
+				waiting_for_next_activity(act, "Loading Files...");
+				Intent intentHome = new Intent(act, SelectingFileActivity.class);
+	    		act.startActivity(intentHome);
+
 			}
 		});
 		

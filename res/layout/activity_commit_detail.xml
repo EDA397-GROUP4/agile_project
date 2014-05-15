@@ -9,33 +9,23 @@
     tools:context=".DetailedCommitView"
     android:background="@color/bgcolor" >
 
-    <TextView
-        android:id="@+id/textCommitId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/aCommitActivity" 
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
- 
-    <Button
-		android:id="@+id/buttonQuit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textCommitId"
-        android:text="@string/quitButton"
-        android:onClick="home" />
-    <Button
-		android:id="@+id/buttonfile"
-		android:layout_toRightOf="@+id/buttonQuit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textCommitId"
-        android:text="@string/fileButton"
-        android:onClick="getfile" />
-    
 	<TextView
         android:id="@+id/textViewCommitDetails"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/buttonQuit"
-        android:text="@string/projects_loading" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/commit_details_loading" />
+
+		<TextView
+			android:id="@+id/textViewLoadingFiles"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/textViewCommitDetails"/>
+			    
+	    <TextView
+			android:id="@+id/textViewCommittedFileList"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/textViewLoadingFiles"		
+			android:layout_marginRight="55dp" />
+
 </RelativeLayout>

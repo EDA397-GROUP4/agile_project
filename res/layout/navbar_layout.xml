@@ -32,7 +32,7 @@
       android:id="@+id/btnBranches"
       style="@style/navbar_button"
       android:drawableTop="@drawable/navbar_pictureselector"
-      android:text="Branches"
+      android:text="Files"
       android:layout_marginLeft="5dp"
     />
     <RadioButton
