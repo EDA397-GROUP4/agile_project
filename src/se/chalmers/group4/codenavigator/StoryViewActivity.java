@@ -25,7 +25,7 @@ public class StoryViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		NavigationBar.load_navbar(this,4);
+		NavigationBar.load_navbar(this,2);
 		NavigationBar.insert_main_layout(this, R.layout.story_layout);
 		ActionBar bar = getActionBar();
 		bar.setTitle("Stories");

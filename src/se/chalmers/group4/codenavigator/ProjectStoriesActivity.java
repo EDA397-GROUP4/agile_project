@@ -39,7 +39,7 @@ public class ProjectStoriesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_project_stories);
-		NavigationBar.load_navbar(this,3);
+		NavigationBar.load_navbar(this,2);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_stories);
 		ActionBar bar = getActionBar();
 		bar.setTitle("Stories");

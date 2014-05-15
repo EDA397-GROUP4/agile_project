@@ -22,17 +22,14 @@
     android:orientation="horizontal"
     android:background="@drawable/navbar_background"
   >
-    <RadioButton
-      android:id="@+id/btnHome"
+  
+          <RadioButton
+      android:id="@+id/btnCommits"
       style="@style/navbar_button"
-      android:drawableTop="@drawable/navbar_allselector"
-      android:text="Home"
-    />
-    <RadioButton
-      android:id="@+id/btnBranches"
-      style="@style/navbar_button"
-      android:drawableTop="@drawable/navbar_pictureselector"
-      android:text="Files"
+
+      android:drawableTop="@drawable/navbar_fileselector"
+      android:text="Commits"
+
       android:layout_marginLeft="5dp"
     />
     <RadioButton
@@ -42,12 +39,19 @@
       android:text="Stories"
       android:layout_marginLeft="5dp"
     />
-    <RadioButton
-      android:id="@+id/btnCommits"
+     
+<RadioButton
+      android:id="@+id/btnFiles"
       style="@style/navbar_button"
-      android:drawableTop="@drawable/navbar_fileselector"
-      android:text="Commits"
+      android:drawableTop="@drawable/navbar_pictureselector"
+      android:text="Files"
       android:layout_marginLeft="5dp"
+    />
+<RadioButton
+      android:id="@+id/btnProjects"
+      style="@style/navbar_button"
+      android:drawableTop="@drawable/navbar_allselector"
+      android:text="Projects"
     />
     </RadioGroup>
 </RelativeLayout>

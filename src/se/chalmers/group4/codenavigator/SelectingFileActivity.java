@@ -54,7 +54,7 @@ public class SelectingFileActivity extends Activity {
 		bar.setTitle("File Selection");
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		
-		NavigationBar.load_navbar(this,2);
+		NavigationBar.load_navbar(this,3);
 		NavigationBar.insert_main_layout(this, R.layout.activity_selecting_file);
 
 		// Create and launch the SelectFileLoad AsyncTask

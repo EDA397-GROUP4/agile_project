@@ -16,27 +16,37 @@ public class NavigationBar {
 	
 	public static void load_navbar(final Activity act, int selectedButtonNumber) {
 		act.setContentView(R.layout.navbar_layout);
+//<<<<<<< HEAD
+//		//RadioGroup radioGroup = (RadioGroup) act.findViewById(R.id.navbar_radiogroup);
+//		RadioButton rbHome = (RadioButton) act.findViewById(R.id.btnHome);
+//		RadioButton rbBranches = (RadioButton) act.findViewById(R.id.btnBranches);
+//		RadioButton rbStories = (RadioButton) act.findViewById(R.id.btnStories);
+//=======
 		//RadioGroup radioGroup = (RadioGroup) act.findViewById(R.id.navbar_radiogroup);
-		RadioButton rbHome = (RadioButton) act.findViewById(R.id.btnHome);
-		RadioButton rbBranches = (RadioButton) act.findViewById(R.id.btnBranches);
-		RadioButton rbStories = (RadioButton) act.findViewById(R.id.btnStories);
+//>>>>>>> refs/heads/sprint3Style
 		RadioButton rbCommits = (RadioButton) act.findViewById(R.id.btnCommits);
+		RadioButton rbStories = (RadioButton) act.findViewById(R.id.btnStories);
+		RadioButton rbFiles = (RadioButton) act.findViewById(R.id.btnFiles);
+		RadioButton rbProjects = (RadioButton) act.findViewById(R.id.btnProjects);
+
 		
 		// Highlight the button corresponding to the current activities
 		RadioButton rbToBeSelected;
 		
 		switch (selectedButtonNumber) {
 		case 1:
-			rbToBeSelected = rbHome;
+
+			rbToBeSelected = rbCommits;
 			break;
 		case 2:
-			rbToBeSelected = rbBranches;
-			break;
-		case 3:
 			rbToBeSelected = rbStories;
 			break;
+		case 3:
+			rbToBeSelected = rbFiles;
+			break;
 		case 4:
-			rbToBeSelected = rbCommits;
+			rbToBeSelected = rbProjects;
+
 			break;
 		default:
 			rbToBeSelected = null;
@@ -48,7 +58,7 @@ public class NavigationBar {
 		}
 			
 		// Set the click event on buttons
-		rbHome.setOnClickListener(new OnClickListener() {
+		rbProjects.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				waiting_for_next_activity(act, "Loading Projects...");
@@ -57,13 +67,19 @@ public class NavigationBar {
 			}
 		});
 
-		rbBranches.setOnClickListener(new OnClickListener() {
+		rbFiles.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				waiting_for_next_activity(act, "Loading Files...");
-				Intent intentHome = new Intent(act, SelectingFileActivity.class);
+//<<<<<<< HEAD
+//				waiting_for_next_activity(act, "Loading Files...");
+//				Intent intentHome = new Intent(act, SelectingFileActivity.class);
+//	    		act.startActivity(intentHome);
+//
+//=======
+waiting_for_next_activity(act, "Loading Files...");				
+Intent intentHome = new Intent(act, SelectingFileActivity.class);
 	    		act.startActivity(intentHome);
-
+//>>>>>>> refs/heads/sprint3Style
 			}
 		});
 		
