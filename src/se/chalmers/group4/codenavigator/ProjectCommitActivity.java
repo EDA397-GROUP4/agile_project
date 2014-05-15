@@ -13,6 +13,9 @@ import org.kohsuke.github.PagedIterator;
 
 
 
+
+
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.NotificationManager;
@@ -28,6 +31,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,17 +49,14 @@ public class ProjectCommitActivity extends Activity {
 	private GHRepository githubRepository;
 	private String latestCom;	
 	private CommitAdapter commitAdapter;
-
+	
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		NavigationBar.load_navbar(this,1);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_commit);
-		ActionBar bar = getActionBar();
-		bar.setTitle("Commits");
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-
-		
+					
 		// Get the selected repository from the app class
 		CodeNavigatorApplication app = (CodeNavigatorApplication) getApplication();
 		this.githubRepository = app.getGithubRepository();
@@ -87,7 +90,32 @@ public class ProjectCommitActivity extends Activity {
 		scheduler.scheduleAtFixedRate(new RecurrentTask(), 0, 1,TimeUnit.MINUTES);
 	}
 	
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.project_commit, menu);
+		ActionBar bar = getActionBar();
+		bar.setTitle("Commits");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			logOut();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void logOut() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, LoginActivity.class);
+		startActivity(i);
+	}
 	
     private void showInformation(String message, boolean loading) {
     	TextView message_view = (TextView)findViewById(R.id.TextViewCommitsMessage);

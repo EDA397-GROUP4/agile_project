@@ -22,6 +22,9 @@ import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -41,9 +44,7 @@ public class ProjectStoriesActivity extends Activity {
 		//setContentView(R.layout.activity_project_stories);
 		NavigationBar.load_navbar(this,2);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_stories);
-		ActionBar bar = getActionBar();
-		bar.setTitle("Stories");
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+		
 		// Story List TextView (ui)
 		this.textViewStories = (TextView) findViewById(R.id.TextViewStories);
 
@@ -60,7 +61,32 @@ public class ProjectStoriesActivity extends Activity {
 		new StoriesLoadTask().execute();
 	}
 	
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.project_stories, menu);
+		ActionBar bar = getActionBar();
+		bar.setTitle("Stories");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			logOut();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void logOut() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, LoginActivity.class);
+		startActivity(i);
+	}
     public void doSelectStory(View v) throws Exception {
 
 		// Retrieve the EditText in the UI
