@@ -1,5 +1,6 @@
 package se.chalmers.group4.codenavigator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,6 +17,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -27,6 +32,7 @@ public class ProjectStoriesActivity extends Activity {
 	private HashMap<String, GHIssue> storyList;
 	private GHRepository githubRepository;
 	private GHIssue story;
+	private List<LabelColor> labelColors; 
 	
 
 	@Override
@@ -122,6 +128,8 @@ public class ProjectStoriesActivity extends Activity {
 				PagedIterator<GHIssue> repoStories = githubRepository.listIssues(GHIssueState.OPEN).iterator();
 				
 				int i = 1;
+				labelColors = new ArrayList<LabelColor>();
+				
 				for (PagedIterator<GHIssue> stories =  repoStories; stories.hasNext();){
     				// Get the next story
     				GHIssue thisStory = stories.next();
@@ -131,13 +139,32 @@ public class ProjectStoriesActivity extends Activity {
     				// Add it to the UI text
     				List<Label> lines = (List<Label>) thisStory.getLabels();
     				StringBuilder labels = new StringBuilder();
+    				finalText.append(Integer.toString(i) + " => " + thisStory.getTitle() + " " );
+    				int startColor = finalText.length();
     				for (Label label: lines){
-    					labels.append("[");
+    				//	labels.append("[");
     					labels.append(label.getName());
-    					labels.append("] ");
+    					labels.append(" ");
+    					int endColor = startColor + label.getName().length();
+    					LabelColor l = new LabelColor();
+    					l.setStartColor(startColor);
+    					l.setEndColor(endColor);
+//    					if (label.getName().equalsIgnoreCase("Bug")){
+//    						l.setColor(Color.rgb(185, 96, 96));
+//    					}
+//    					else if (label.getName().equalsIgnoreCase("Story")){
+//    						l.setColor(Color.rgb(95, 125, 185));
+//    					}
+//    					else {
+//    						l.setColor(Color.rgb(125, 185, 96));
+//    					}
+    					l.setColor(Color.parseColor("#" + label.getColor()));
+    					labelColors.add(l);
+    					startColor = startColor + label.getName().length() + 1;
     				}
     				
-    				finalText.append(Integer.toString(i) + " => " + thisStory.getTitle() + " " +labels.toString()+'\n');
+    				finalText.append(labels.toString()+'\n');
+    				
     				i++;
             	}
 
@@ -145,8 +172,8 @@ public class ProjectStoriesActivity extends Activity {
 				return finalText.toString();
 
 			} catch (Exception e) {
-				Log.d("GithubProject", "Exception during project loading : + "
-						+ e.toString());
+				Log.d("GithubProject", "Exception during project loading : "
+						+ e.getMessage());
 				// Exception
 				return "Unexpected exception...";
 
@@ -157,7 +184,18 @@ public class ProjectStoriesActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			// Write the result to the UI.
-			textViewStories.setText(result);
+
+		    SpannableString ssb = new SpannableString(result);
+		    for (LabelColor l: labelColors){
+		    	BackgroundColorSpan bcs = new BackgroundColorSpan(l.getColor());
+		    	ssb.setSpan(bcs, l.getStartColor(), l.getEndColor(),
+			            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		    	
+		    	ForegroundColorSpan fcs = new ForegroundColorSpan(Color.WHITE);
+		    	ssb.setSpan(fcs, l.getStartColor(), l.getEndColor(),
+			            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		    }
+			textViewStories.setText(ssb);
 
 		}
 	}
