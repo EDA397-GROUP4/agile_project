@@ -14,7 +14,7 @@
     <string name="stories_loading">Loading stories list…</string>
     <string name="file_loading">Loading file list…</string>
     <string name="title_activity_project_commit">ProjectCommitActivity</string>
-    <string name="title_activity_commit_detail">CommitDetailActivity</string>
+    <string name="title_activity_commit_detail">Commit Details</string>
     <string name="title_activity_commit">CommitActivity</string>
     <string name="aCommitButton">CommitActivity</string>
     <string name="aCommitActivity">something</string>

@@ -14,6 +14,7 @@ import org.kohsuke.github.GHRepository;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ import android.widget.Toast;
 import android.util.Log;
 
 public class SelectingFileActivity extends Activity {
+    private static final String    TAG_NUMBER_OF_FILES = "numberOfFiles";
+    private static final String    TAG_FILE_NAME       = "file_";
 	private static final String    C_MASTER_NAME = "master";
 	private ListView               theSelectedFilesListView;
 	private Button                 saveSelectedFilesButton;
@@ -59,7 +62,8 @@ public class SelectingFileActivity extends Activity {
 	 *   connect a listener to the save button
 	 */
     private void setupSelectableList() {
-		Log.d("select","innan findViewById listOfFilenames...");
+        // the adapter
+    	Log.d("select","innan findViewById listOfFilenames...");
 		theSelectedFilesListView = (ListView)findViewById(R.id.listOfFilenames);
 		Log.d("select","innan new SelectablearrayAdapter...");
 		selectableArrayAdapter   = new SelectableArrayAdapter( this,
@@ -68,6 +72,8 @@ public class SelectingFileActivity extends Activity {
 				                                       		   allRepositoryFiles );
 		Log.d("select","innan setAdapter...");
 		theSelectedFilesListView.setAdapter(selectableArrayAdapter);
+
+		// the listener
 		Log.d("select","innan setOnItemCLickListener...");
 		theSelectedFilesListView.setOnItemClickListener(theOnItemClickListener);
 		Log.d("select","innan find button...");
@@ -76,19 +82,67 @@ public class SelectingFileActivity extends Activity {
 		saveSelectedFilesButton.setOnClickListener( new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				ArrayList<String> interestingFiles = new ArrayList<String>();
 				String result = "";
 				List<String> resultList = selectableArrayAdapter.getCheckedItems();
 				for (int i=0; i<resultList.size(); i++) {
-					result += String.valueOf(resultList.get(i)) + "\n";
+					String tmpFilename = String.valueOf(resultList.get(i));
+//					result += String.valueOf(resultList.get(i)) + "\n";
+					result += tmpFilename + "\n";
+					interestingFiles.add(tmpFilename);
 				}
 				Log.d("select","onclick result: "+result)	;			
 				selectableArrayAdapter.getCheckedItemPositions().toString();
 				Toast.makeText( getApplicationContext(), result, Toast.LENGTH_LONG).show();
+				
+				// save selected files permanently
+				saveSelectedFiles( interestingFiles );
+				Log.d("selectSavedFiles","after saveSelectedfiles...");
+				//Testing...
+				ArrayList<String> retrievedFiles = getSavedFiles();
+				for( String theFilename: retrievedFiles ) {
+					Log.d("selectGETSAVEDFILEs","file: "+theFilename+"\n");
+				}
 			}
 		});
 
     }
 
+    
+    
+    private void saveSelectedFiles( List<String> filesToSave ) {
+       int numberOfSelectedFiles        = filesToSave.size();
+       
+       SharedPreferences preferences = getPreferences( MODE_PRIVATE );
+       SharedPreferences.Editor editor = preferences.edit();
+       editor.putInt(TAG_NUMBER_OF_FILES, numberOfSelectedFiles);
+       editor.clear();  //delete all old filenames...
+// putStringSet(String key, Set<String> values) finns även en getStringSet
+// remove(String key)
+       int i = 0;
+       for (String filename: filesToSave) {
+    	   String tmpFileTag = TAG_FILE_NAME+i;
+    	   editor.putString(tmpFileTag, filename);
+    	   i++;
+       }
+       editor.commit();
+    }
+    
+    public ArrayList<String> getSavedFiles() {
+    	ArrayList<String> theSavedFiles = new ArrayList<String>();
+    	
+        SharedPreferences preferences = getPreferences( MODE_PRIVATE );
+//        SharedPreferences..Editor editor = preferences.edit();
+    	// Get number of saved files
+        int numberOfSelectedFiles = preferences.getInt(TAG_NUMBER_OF_FILES,0);
+        for ( int i = 0; i < numberOfSelectedFiles; i++  ) {
+           String tmpFileTag = TAG_FILE_NAME+i;
+           String tmpSavedFileName = preferences.getString(tmpFileTag, "");
+           theSavedFiles.add(tmpSavedFileName);
+        }
+    	
+    	return theSavedFiles;
+    }
     
     
 	@Override
@@ -214,7 +268,7 @@ public class SelectingFileActivity extends Activity {
 				Log.d("selectFiles","####theBranches = :"+theBranches);
 				Log.d("selectFiles","theBranches got :"+theBranches.size()+" items");
 				Iterator<String>         iterator      = theBranches.keySet().iterator();
-				int i = 0;
+//				int i = 0;
 				while (iterator.hasNext())    {
 					
 					Object key = iterator.next();
@@ -245,10 +299,12 @@ public class SelectingFileActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(String result) {
+
 			StringTokenizer tmpAllRepositoryFiles = new StringTokenizer(result, ",");
 			while (tmpAllRepositoryFiles.hasMoreTokens()) {
 				allRepositoryFiles.add(tmpAllRepositoryFiles.nextToken());
 			}
+			
 			setupSelectableList();
 			Log.d("selectEndingOnPostExecute", "allRepositoryFiles has:"+allRepositoryFiles.size()+" filenames..");
 		}
