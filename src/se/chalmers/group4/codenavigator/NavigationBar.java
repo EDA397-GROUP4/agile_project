@@ -19,8 +19,9 @@ public class NavigationBar {
 		RadioGroup radioGroup = (RadioGroup) act.findViewById(R.id.navbar_radiogroup);
 		RadioButton rbCommits = (RadioButton) act.findViewById(R.id.btnCommits);
 		RadioButton rbStories = (RadioButton) act.findViewById(R.id.btnStories);
+		RadioButton rbFiles = (RadioButton) act.findViewById(R.id.btnFiles);
 		RadioButton rbProjects = (RadioButton) act.findViewById(R.id.btnProjects);
-		RadioButton rbLogOut = (RadioButton) act.findViewById(R.id.btnLogOut);
+
 		
 		// Highlight the button corresponding to the current activities
 		RadioButton rbToBeSelected;
@@ -34,10 +35,10 @@ public class NavigationBar {
 			rbToBeSelected = rbStories;
 			break;
 		case 3:
-			rbToBeSelected = rbProjects;
+			rbToBeSelected = rbFiles;
 			break;
 		case 4:
-			rbToBeSelected = rbLogOut;
+			rbToBeSelected = rbProjects;
 
 			break;
 		default:
@@ -58,7 +59,7 @@ public class NavigationBar {
 			}
 		});
 
-		rbLogOut.setOnClickListener(new OnClickListener() {
+		rbFiles.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Intent intentHome = new Intent(act, LoginActivity.class);

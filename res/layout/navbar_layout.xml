@@ -45,10 +45,10 @@
       android:text="Projects"
     />
 <RadioButton
-      android:id="@+id/btnLogOut"
+      android:id="@+id/btnFiles"
       style="@style/navbar_button"
       android:drawableTop="@drawable/navbar_pictureselector"
-      android:text="Log Out"
+      android:text="Files"
       android:layout_marginLeft="5dp"
     />
     </RadioGroup>
