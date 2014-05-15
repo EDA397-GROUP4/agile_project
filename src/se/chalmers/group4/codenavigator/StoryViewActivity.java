@@ -7,7 +7,7 @@ import java.util.List;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueComment;
 
-import se.chalmers.group4.codenavigator.R.id;
+//import se.chalmers.group4.codenavigator.R.id;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.pm.LabeledIntent;

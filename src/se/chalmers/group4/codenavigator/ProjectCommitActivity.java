@@ -1,141 +1,20 @@
-//package se.chalmers.group4.codenavigator;
-//
-//import java.util.HashMap;
-//
-//import org.kohsuke.github.GHCommit;
-//import org.kohsuke.github.GHRepository;
-//import org.kohsuke.github.PagedIterator;
-//
-//
-//import android.os.AsyncTask;
-//import android.os.Bundle;
-//import android.app.Activity;
-//import android.content.Intent;
-//import android.util.Log;
-//import android.view.View;
-//import android.widget.EditText;
-//import android.widget.TextView;
-//
-//public class ProjectCommitActivity extends Activity {
-//
-//	private TextView textViewCommits;
-//	private HashMap<String, String> commitList;
-//	private GHRepository githubRepository;
-//	
-//	@Override
-//	protected void onCreate(Bundle savedInstanceState) {
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_project_commit);
-//		
-//		// Commit List TextView (ui) 
-//		this.textViewCommits = (TextView)findViewById(R.id.TextViewCommits);
-//		
-//		// Initialize an HashMap "ID"/Commit, to be fill up by the ProjectsLoadTask
-//		this.commitList = new HashMap<String, String>();
-//		
-//		// Get the selected repository from the app class
-//		CodeNavigatorApplication app = (CodeNavigatorApplication)getApplication();
-//		this.githubRepository = app.getGithubRepository();
-//		
-//		// Create and launch the CommitsLoad AsyncTask
-//		// (network activities cannot be done in the main thread)
-//		new CommitsLoadTask().execute();
-//	}
-//
-//	public void doSelectCommit(View v) throws Exception {
-//		
-//		// Retrieve the EditText in the UI
-//				EditText commitID_ed = (EditText)findViewById(R.id.selectedCommit);
-//				// Get the project ID value
-//				String projectID = commitID_ed.getText().toString();
-//				
-//				// Retrieve the project corresponding to this ID
-//				String sha1 = this.commitList.get(projectID);
-//				
-//				// Check if this given ID corresponds to a listed project
-//				if(sha1 == null) {
-//					// Doesn't exist error
-//					// TODO display an error message ???
-//					return;
-//				}
-//				
-//				// Start the ProjectCommit Activity
-//				
-//				Intent intent = new Intent(this, CommitDetailActivity.class);
-//				intent.putExtra("COMMIT_ID", sha1);
-//				startActivity(intent);
-//	}
-//	
-//	/**
-//	 * Private inner class inherited from AsyncTask
-//	 * used for loading the commit list in a new thread.
-//	 * 
-//	 * This is made with a loop on the commit list 
-//	 * (retrieved from the global Github Repository Object stored in the app class)
-//	 */
-//    private class CommitsLoadTask extends AsyncTask<Void, Void, String> {
-//        @Override
-//        protected String doInBackground(Void... v) {
-//            StringBuilder finalText = new StringBuilder();
-//            int i = 1;
-//            try {
-//            	
-//            	// Repositories Commit List iterator
-//            	PagedIterator<GHCommit> repoCommits = githubRepository.listCommits().iterator();
-//    			
-//            	for (PagedIterator<GHCommit> commits =  repoCommits; commits.hasNext();){
-//    				// Get the next commit 
-//    				GHCommit thisCommit = commits.next();
-//    			
-//    				commitList.put(Integer.toString(i), thisCommit.getSHA1());
-//    				
-//    				// Add it to the UI text
-//    				String[] lines = thisCommit.getCommitShortInfo().getMessage().split("\n");
-//    				finalText.append(Integer.toString(i) + " => "+lines[0]+'\n');
-//    				i++;
-//            	}
-//            	
-//            	// Return the commit list flat text to be written in the UI
-//            	return  finalText.toString();
-//
-//    		}
-//    		catch (Exception e) {
-//    			Log.d("GithubProject", "Exception during project loading : + " + e.toString());
-//    			// Exception
-//    			return "Unexpected exception...";
-//    			
-//    		} 
-//            
-//        }
-//        
-//        @Override
-//        protected void onPostExecute(String result) {
-//        	// Write the result to the UI.
-//        	textViewCommits.setText(result);
-//        	
-//       }
-//    }
-//
-//}
-//=======
-
 package se.chalmers.group4.codenavigator;
 
-import java.util.HashMap;
-import java.util.List;
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.kohsuke.github.GHCommit;
-import org.kohsuke.github.GHCommitStatus;
 import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GitHub;
 import org.kohsuke.github.PagedIterator;
+
+
+
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -144,49 +23,90 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ProjectCommitActivity extends Activity {
 
-	private TextView textViewCommits;
+
 	private GHRepository githubRepository;
-	private HashMap<String, String> commitList;
-	private String latestCom;
+	private String latestCom;	
+	private CommitAdapter commitAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.navbar_layout);
 		NavigationBar.load_navbar(this,4);
 		NavigationBar.insert_main_layout(this, R.layout.activity_project_commit);
 		ActionBar bar = getActionBar();
 		bar.setTitle("Commits");
 		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-		// Commit List TextView (ui)
-		this.textViewCommits = (TextView) findViewById(R.id.TextViewCommits);
 
-		//Initialize an HashMap "ID"/Commit, to be fill up by the ProjectsLoadTask
-		this.commitList = new HashMap<String, String>();
 		
 		// Get the selected repository from the app class
 		CodeNavigatorApplication app = (CodeNavigatorApplication) getApplication();
 		this.githubRepository = app.getGithubRepository();
+
+		// Construct the data source
+	    ArrayList<CommitListItem> commitListArray = new ArrayList<CommitListItem>();
+	    // Create the adapter to convert the array to views
+	    this.commitAdapter = new CommitAdapter(this, commitListArray);
+	    
+	    // Attach the adapter to a ListView
+	    ListView listView = (ListView) findViewById(R.id.listview_commit);
+	    listView.setAdapter(this.commitAdapter);
+		
+	    // Create the click event on the ListView
+	    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+				final CommitListItem item = (CommitListItem) parent.getItemAtPosition(position);
+				Log.d("Click",item.getSHA1());
+				selectCommit(item.getSHA1());
+			}	
+	    });
+		
 
 		// Create and launch the CommitsLoad AsyncTask
 		// (network activities cannot be done in the main thread)
 		new CommitsLoadTask().execute();
 
 		// Scheduling recurrent task for once per 1 minute
-		ScheduledExecutorService scheduler = Executors
-				.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new RecurrentTask(), 0, 1,
-				TimeUnit.MINUTES);
+		ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+		scheduler.scheduleAtFixedRate(new RecurrentTask(), 0, 1,TimeUnit.MINUTES);
 	}
+	
+	
+	
+    private void showInformation(String message, boolean loading) {
+    	TextView message_view = (TextView)findViewById(R.id.TextViewCommitsMessage);
+    	ProgressBar loading_view = (ProgressBar)findViewById(R.id.ProgressBarCommit);
+    	LinearLayout layout_view = (LinearLayout)findViewById(R.id.LayoutCommitInfo);
+    	message_view.setText(message);
+    	if(loading) {
+    		loading_view.setVisibility(View.VISIBLE);
+    	}
+    	else {
+    		loading_view.setVisibility(View.GONE);
+    	}
+    	layout_view.setVisibility(View.VISIBLE);
+    }
+    
+    private void hideInformation() {
+    	LinearLayout layout_view = (LinearLayout)findViewById(R.id.LayoutCommitInfo);
+    	layout_view.setVisibility(View.GONE);
+    }
 
 	/**
 	 * Will send user a notification. Needs some work, but is functional
@@ -227,55 +147,68 @@ public class ProjectCommitActivity extends Activity {
 	 * This is made with a loop on the commit list (retrieved from the global
 	 * Github Repository Object stored in the app class)
 	 */
-	private class CommitsLoadTask extends AsyncTask<Void, Void, String> {
+	private class CommitsLoadTask extends AsyncTask<Void, Void, ArrayList<CommitListItem>> {
 		@Override
-		protected String doInBackground(Void... v) {
-			StringBuilder finalText = new StringBuilder();
+		protected ArrayList<CommitListItem> doInBackground(Void... v) {
+			ArrayList<CommitListItem> commitListArray = new ArrayList<CommitListItem>();
 
 			try {
+				
 				// Set latestCom to the newest commit when program is started
-				latestCom = githubRepository.listCommits().asList().get(0)
-						.getSHA1();
-				// Repositories Commit List iterator
-				PagedIterator<GHCommit> repoCommits = githubRepository
-						.listCommits().iterator();
-
-				// Save the current time as the latest update time of the commit
-				// view
+				latestCom = githubRepository.listCommits().asList().get(0).getSHA1();
+				
+				// Save the current time as the latest update time of the commit view
 				CodeNavigatorApplication app = (CodeNavigatorApplication) getApplication();
 				app.setUpdateTime(System.currentTimeMillis());
 				Log.d("TIME NOW", "" + app.getUpdateTime());
 				
-				int i = 1;
+				// Repositories Commit List iterator
+				PagedIterator<GHCommit> repoCommits = githubRepository.listCommits().iterator();
+				
+				// Loop !
 				for (PagedIterator<GHCommit> commits =  repoCommits; commits.hasNext();){
     				// Get the next commit 
     				GHCommit thisCommit = commits.next();
     			
-    				commitList.put(Integer.toString(i), thisCommit.getSHA1());
+    				// Get information
+    				String title = thisCommit.getCommitShortInfo().getMessage();
+    				String date = DateFormat.getDateTimeInstance().format(thisCommit.getCommitShortInfo().getCommitter().getDate());
+    				String sha1 = thisCommit.getSHA1();
     				
-    				// Add it to the UI text
-    				String[] lines = thisCommit.getCommitShortInfo().getMessage().split("\n");
-    				finalText.append(Integer.toString(i) + " => "+lines[0]+'\n');
-    				i++;
+    				// Add to the commit list
+    				commitListArray.add(new CommitListItem(title, date, sha1));
             	}
 
-				// Return the commit list flat text to be written in the UI
-				return finalText.toString();
+				// Return the commit list Array
+				return commitListArray;
 
 			} catch (Exception e) {
-				Log.d("GithubProject", "Exception during project loading : + "
-						+ e.toString());
+				Log.d("GithubProject", "Exception during project loading : + " + e.toString());
+				
 				// Exception
-				return "Unexpected exception...";
-
+				ArrayList<CommitListItem> errorArray = new ArrayList<CommitListItem>();
+				errorArray.add(new CommitListItem("Unexpected exception...", null, null).setError());
+				return errorArray;
 			}
 
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			// Write the result to the UI.
-			textViewCommits.setText(result);
+		protected void onPostExecute(ArrayList<CommitListItem> result) {
+			// Clear the previous results in the Listview  
+			commitAdapter.clear();
+			
+			// Check if the first element is Error type
+			if(result.get(0).isError()) {
+				// Write the error in the information box and don't display results
+        		showInformation(result.get(0).getTitle(), false);
+			}
+			else {
+				// Hide the infomation box
+        		hideInformation();
+        		// Display all the results
+				commitAdapter.addAll(result);
+			}
 
 		}
 	}
@@ -287,7 +220,7 @@ public class ProjectCommitActivity extends Activity {
 	 */
 	private class RecurrentTask implements Runnable {
 		int nrNewCommits = 0;
-		int i = 0;
+		//int i = 0;
 
 		@Override
 		public void run() {
@@ -381,30 +314,87 @@ public class ProjectCommitActivity extends Activity {
 		}
 
 	}
+
 	
-	public void doSelectCommit(View v) throws Exception {
+	private void selectCommit(String sha1) {
+		final ListView listview = (ListView)findViewById(R.id.listview_commit);
+    	listview.setVisibility(View.GONE);
+    	showInformation("Loading selected commit...", true);
+    	
+		Intent intent = new Intent(this, CommitDetailActivity.class);
+		intent.putExtra("COMMIT_ID", sha1);
+		startActivity(intent);
+		
+		new Handler().postDelayed(new Runnable() {
+            public void run() {
+            	hideInformation();
+            	listview.setVisibility(View.VISIBLE);
+            }
+        }, 4000);
+	}
 	
-	// Retrieve the EditText in the UI
-			EditText commitID_ed = (EditText)findViewById(R.id.selectedCommit);
-			// Get the project ID value
-			String projectID = commitID_ed.getText().toString();
-			
-			// Retrieve the project corresponding to this ID
-			String sha1 = this.commitList.get(projectID);
-			
-			// Check if this given ID corresponds to a listed project
-			if(sha1 == null) {
-				// Doesn't exist error
-				// TODO display an error message ???
-				return;
-			}
-			
-			// Start the ProjectCommit Activity
-			
-			Intent intent = new Intent(this, CommitDetailActivity.class);
-			intent.putExtra("COMMIT_ID", sha1);
-			startActivity(intent);
-}
+	private class CommitListItem {
+
+		private String title;
+		private String date;
+		private String sha1;
+		private boolean error;
+
+		public CommitListItem(String title, String date, String sha1) {
+			this.title = title;
+			this.date = date;
+			this.sha1 = sha1;
+			this.error = false;
+		}
+
+		public String getTitle() {
+			return this.title;
+		}
+		public String getDate() {
+			return this.date;
+		}
+		public String getSHA1() {
+			return this.sha1;
+		}
+		public CommitListItem setError() {
+			this.error = true;
+			return this;
+		}
+		public boolean isError() {
+			return this.error;
+		}
+
+	}
+	
+	private class CommitAdapter extends ArrayAdapter<CommitListItem> {
+		private final Context context;
+		public CommitAdapter(Context context, ArrayList<CommitListItem> users) {
+			super(context, android.R.layout.simple_list_item_1, users);
+			this.context = context;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// Get the data item for this position
+			CommitListItem item = getItem(position);    
+
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View rowView = inflater.inflate(R.layout.list_commit, parent, false);
+
+			// Lookup view for data population
+			TextView titleview = (TextView) rowView.findViewById(R.id.CommitTitle);
+			TextView dateview = (TextView) rowView.findViewById(R.id.CommitDate);
+			TextView numberview = (TextView) rowView.findViewById(R.id.CommitNumber);
+
+			// Populate the data into the template view using the data object
+			titleview.setText(item.getTitle());
+			dateview.setText(item.getDate());
+			numberview.setText(Integer.toString(getCount()-position));
+
+			// Return the completed view to render on screen
+			return rowView;
+		}
+	}
 
 }
 

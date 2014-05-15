@@ -56,74 +56,82 @@
             android:name="se.chalmers.group4.codenavigator.AssigningpairActivity"
             android:label="@string/title_activity_assigningpair" >
         </activity>
-                <activity
+        <activity
             android:name="se.chalmers.group4.codenavigator.StoryViewActivity"
-
-            android:label="@+id/storyName"
-            >
+            android:label="@+id/storyName" >
+        </activity>
+        <activity
+            android:name="se.chalmers.group4.codenavigator.SelectingFileActivity"
+            android:label="@string/title_activity_selecting_file" >
         </activity>
     </application>
 
-</manifest><!-- ======= -->
+</manifest> <!-- ======= -->
 <!-- <?xml version="1.0" encoding="utf-8"?> -->
 <!-- <manifest xmlns:android="http://schemas.android.com/apk/res/android" -->
-<!--     package="se.chalmers.group4.codenavigator" -->
-<!--     android:versionCode="1" -->
-<!--     android:versionName="1.0" > -->
+<!-- package="se.chalmers.group4.codenavigator" -->
+<!-- android:versionCode="1" -->
+<!-- android:versionName="1.0" > -->
 
-<!--     <uses-permission android:name="android.permission.INTERNET" /> -->
 
-<!--     <uses-sdk -->
-<!--         android:minSdkVersion="14" -->
-<!--         android:targetSdkVersion="19" /> -->
+<!-- <uses-permission android:name="android.permission.INTERNET" /> -->
 
-<!--     <application -->
-<!--         android:name="se.chalmers.group4.codenavigator.CodeNavigatorApplication" -->
-<!--         android:allowBackup="true" -->
-<!--         android:icon="@drawable/ic_launcher" -->
-<!--         android:label="@string/app_name" -->
-<!--         android:theme="@style/AppTheme" > -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.MainActivity" -->
-<!--             android:label="@string/app_name" > -->
-<!--             <intent-filter> -->
-<!--                 <action android:name="android.intent.action.MAIN" /> -->
 
-<!--                 <category android:name="android.intent.category.LAUNCHER" /> -->
-<!--             </intent-filter> -->
-<!--         </activity> -->
-<!--         <activity android:name="se.chalmers.group4.codenavigator.LoginActivity" /> -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.ProjectListActivity" -->
-<!--             android:label="@string/title_activity_project_list" -->
-<!--             android:parentActivityName="se.chalmers.group4.codenavigator.LoginActivity" > -->
-<!--             <meta-data -->
-<!--                 android:name="android.support.PARENT_ACTIVITY" -->
-<!--                 android:value="se.chalmers.group4.codenavigator.LoginActivity" /> -->
-<!--         </activity> -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.ProjectCommitActivity" -->
-<!--             android:label="@string/title_activity_project_commit" > -->
-<!--         </activity> -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.CommitDetailActivity" -->
-<!--             android:label="@string/title_activity_commit_detail" > -->
-<!--         </activity> -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.ProjectStoriesActivity" -->
-<!--             android:label="@string/title_activity_project_stories" > -->
-<!--         </activity> -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.DisplayShowFilesActivity" -->
-<!--             android:label="@string/title_activity_display_show_files" > -->
-<!--         </activity> -->
-<!--         <activity -->
-<!--             android:name="se.chalmers.group4.codenavigator.StoryViewActivity" -->
+<!-- <uses-sdk -->
+<!-- android:minSdkVersion="14" -->
+<!-- android:targetSdkVersion="19" /> -->
 
-<!--             android:label="@+id/storyName" -->
-<!--             > -->
-<!--         </activity> -->
-<!--     </application> -->
+
+<!-- <application -->
+<!-- android:name="se.chalmers.group4.codenavigator.CodeNavigatorApplication" -->
+<!-- android:allowBackup="true" -->
+<!-- android:icon="@drawable/ic_launcher" -->
+<!-- android:label="@string/app_name" -->
+<!-- android:theme="@style/AppTheme" > -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.MainActivity" -->
+<!-- android:label="@string/app_name" > -->
+<!-- <intent-filter> -->
+<!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+<!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+<!-- </intent-filter> -->
+<!-- </activity> -->
+<!-- <activity android:name="se.chalmers.group4.codenavigator.LoginActivity" /> -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.ProjectListActivity" -->
+<!-- android:label="@string/title_activity_project_list" -->
+<!-- android:parentActivityName="se.chalmers.group4.codenavigator.LoginActivity" > -->
+<!-- <meta-data -->
+<!-- android:name="android.support.PARENT_ACTIVITY" -->
+<!-- android:value="se.chalmers.group4.codenavigator.LoginActivity" /> -->
+<!-- </activity> -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.ProjectCommitActivity" -->
+<!-- android:label="@string/title_activity_project_commit" > -->
+<!-- </activity> -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.CommitDetailActivity" -->
+<!-- android:label="@string/title_activity_commit_detail" > -->
+<!-- </activity> -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.ProjectStoriesActivity" -->
+<!-- android:label="@string/title_activity_project_stories" > -->
+<!-- </activity> -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.DisplayShowFilesActivity" -->
+<!-- android:label="@string/title_activity_display_show_files" > -->
+<!-- </activity> -->
+<!-- <activity -->
+<!-- android:name="se.chalmers.group4.codenavigator.StoryViewActivity" -->
+
+
+<!-- android:label="@+id/storyName" -->
+<!-- > -->
+<!-- </activity> -->
+<!-- </application> -->
+
 
 <!-- </manifest> -->
 <!-- ======= -->
@@ -184,4 +192,5 @@
 
 <!-- </manifest> -->
 <!-- >>>>>>> refs/remotes/Github/master -->
+
 
