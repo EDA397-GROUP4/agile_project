@@ -8,11 +8,15 @@ import org.kohsuke.github.GHRepository;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,10 +31,7 @@ public class DisplayShowFilesActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d("file","startingoncreate="+"");
-		ActionBar bar = getActionBar();
-		bar.setTitle("Files");
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-		
+				
 		//setContentView(R.layout.activity_display_show_files);
 		NavigationBar.load_navbar(this,1);
 		NavigationBar.insert_main_layout(this, R.layout.activity_display_show_files);
@@ -60,7 +61,33 @@ public class DisplayShowFilesActivity extends Activity {
         }
 		new FileLoadTask().execute();
 	}
-	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.display_show_files, menu);
+		ActionBar bar = getActionBar();
+		bar.setTitle("Files");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			logOut();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void logOut() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, LoginActivity.class);
+		startActivity(i);
+	}
 
 	 private class FileLoadTask extends AsyncTask<Void, Void, String> {
         @Override

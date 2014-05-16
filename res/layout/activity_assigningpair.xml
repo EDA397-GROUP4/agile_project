@@ -14,25 +14,26 @@
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="55dp"
 	        android:text="@string/members_loading" />
+
 	    <TextView
 	    	android:id="@+id/navigator"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="55dp" />
+
 	    <TextView
 	    	android:id="@+id/programmer"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="55dp" />
-	    	    	
-	    
-		<Spinner
+
+	    <Spinner
 	        android:id="@+id/team_membersList"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="55dp"
 	        android:spinnerMode="dropdown"
-	        android:visibility="invisible" />
+	        android:visibility="visible" />
 						
 	</LinearLayout>
 </ScrollView>
