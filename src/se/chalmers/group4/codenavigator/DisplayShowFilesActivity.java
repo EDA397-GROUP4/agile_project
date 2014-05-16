@@ -29,6 +29,7 @@ public class DisplayShowFilesActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
 		Log.d("file","startingoncreate="+"");
 				
