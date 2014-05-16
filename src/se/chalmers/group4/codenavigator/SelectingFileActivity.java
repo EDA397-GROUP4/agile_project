@@ -129,6 +129,7 @@ public class SelectingFileActivity extends Activity {
 // // putStringSet(String key, Set<String> values) finns även en getStringSet
 // // remove(String key)
 //        int i = 0;
+		interestingFiles.clear(); // remove old saved data
         for (String filename: filesToSave) {
         	interestingFiles.add(filename);
 //     	   String tmpFileTag = TAG_FILE_NAME+i;
