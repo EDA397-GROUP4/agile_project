@@ -1,28 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/bgcolor" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent" 
+	android:layout_height="match_parent"
+	android:orientation="vertical" 
+	android:background="@color/bgcolor">
 
-    <TextView
-        android:id="@+id/TextViewStory"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/button1"
-        android:text="@string/story_loading" />
+	<ScrollView android:layout_height="0dip"
+		android:layout_width="match_parent" 
+		android:layout_weight="1">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:onClick="assignPair"
-        android:text="@string/assign_btn" />
+		<RelativeLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content" 
+			android:orientation="vertical">
 
-</RelativeLayout>
+		    <TextView
+		        android:id="@+id/TextViewStory"
+		        android:layout_width="fill_parent"
+		        android:layout_height="fill_parent"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_below="@+id/button1"
+		        android:text="@string/story_loading" />
+		
+		    <Button
+		        android:id="@+id/button1"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginRight="15dp"
+		        android:layout_marginTop="15dp"
+		        android:onClick="assignPair"
+		        android:text="@string/assign_btn" />
+
+		</RelativeLayout>
+	</ScrollView>
+	
+	<View android:layout_width="1dp" 
+	    android:layout_height="60dp">
+	</View>
+
+</LinearLayout>

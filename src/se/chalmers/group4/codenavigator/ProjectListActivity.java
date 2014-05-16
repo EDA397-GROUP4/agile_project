@@ -285,6 +285,9 @@ public class ProjectListActivity extends Activity {
     	}
 
     	public String getText() {
+    		if (this.itemType == PROJECT_NAME) {
+    			return "• " + this.text;
+    		}
     		return this.text;
     	}
 
