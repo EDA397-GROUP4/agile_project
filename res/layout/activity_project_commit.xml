@@ -60,7 +60,6 @@
         android:textColor="#000000"
         android:ems="5" >
 
-        <requestFocus />
     </EditText>
 
     <Button
