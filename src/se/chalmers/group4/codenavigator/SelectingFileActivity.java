@@ -15,11 +15,14 @@ import org.kohsuke.github.GHRepository;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,10 +53,6 @@ public class SelectingFileActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Log.d("select","startingoncreate...");
 		
-		ActionBar bar = getActionBar();
-		bar.setTitle("File Selection");
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
-		
 		NavigationBar.load_navbar(this,3);
 		NavigationBar.insert_main_layout(this, R.layout.activity_selecting_file);
 
@@ -62,7 +61,31 @@ public class SelectingFileActivity extends Activity {
 		new SelectFilesLoadTask().execute();
 		
 	}
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.selecting_file, menu);
+        ActionBar bar = getActionBar();
+		bar.setTitle("Selecting Files");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+        return super.onCreateOptionsMenu(menu);
+    }
+ 
+	public boolean onOptionsItemSelected2(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			logOut();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
+	private void logOut() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, LoginActivity.class);
+		startActivity(i);
+	}
 	
 	/**
 	 * Help method to:

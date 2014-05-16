@@ -22,6 +22,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,9 +42,6 @@ public class ProjectListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project_list);
-		ActionBar bar = getActionBar();
-		bar.setTitle("Projects");
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
 		
 
 		// Get the global Github Object from the app class
@@ -76,7 +76,33 @@ public class ProjectListActivity extends Activity {
 		// (network activities cannot be done in the main thread)
 		new ProjectsLoadTask().execute();
 	}
-
+	
+	 @Override
+	    public boolean onCreateOptionsMenu(Menu menu) {
+	        MenuInflater inflater = getMenuInflater();
+	        inflater.inflate(R.menu.project_list, menu);
+	        ActionBar bar = getActionBar();
+			bar.setTitle("Commits");
+			bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+	        return super.onCreateOptionsMenu(menu);
+	    }
+	 
+	 @Override
+	    public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+        case R.id.log_out:
+        	logOut();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+		
+	private void logOut() {
+		// TODO Auto-generated method stub
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+	}
 
 	/**
 	 * Event triggered by selecting a project.

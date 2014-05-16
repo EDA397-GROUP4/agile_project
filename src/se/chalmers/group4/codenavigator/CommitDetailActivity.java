@@ -8,14 +8,15 @@ import org.kohsuke.github.GHRepository;
 
 import android.app.ActionBar;
 import android.app.Activity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,9 +33,7 @@ public class CommitDetailActivity extends Activity {
 		//setContentView(R.layout.activity_commit_detail);
 		NavigationBar.load_navbar(this,1);
 		NavigationBar.insert_main_layout(this, R.layout.activity_commit_detail);
-		ActionBar bar = getActionBar();
-		bar.setTitle("Commit Details");
-		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+		
 		// Try to read the sent CommitId
 		Log.d("tag","start of commitdetailedactivity innan hämta commit_id");
 		commitId = getIntent().getStringExtra("COMMIT_ID");
@@ -51,7 +50,32 @@ public class CommitDetailActivity extends Activity {
 		
 	}
 	
-	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.commit_detail, menu);
+		ActionBar bar = getActionBar();
+		bar.setTitle("Commit Details");
+		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#000000")));
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.log_out:
+			logOut();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	private void logOut() {
+		// TODO Auto-generated method stub
+		Intent i = new Intent(this, LoginActivity.class);
+		startActivity(i);
+	}
 	
 	private class DetailedCommitLoadTask extends AsyncTask<Void, Void, String> {
 		@Override

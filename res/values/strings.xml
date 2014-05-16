@@ -14,6 +14,7 @@
     <string name="commits_loading">Loading commit list…</string>
     <string name="commits_select">Select a commit:</string>
     <string name="commit_details_loading">Commit details loading</string>
+    <string name="logout">Log out</string>
 <!-- ======= -->
 <!--     <string name="projects_loading">Loading projects list…</string> -->
 <!--     <string name="commits_loading">Loading commits list…</string> -->
