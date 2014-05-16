@@ -8,19 +8,18 @@
     <string name="password">Password</string>
     <string name="login">Login</string>
     <string name="title_activity_project_list">ProjectListActivity</string>
-<!-- <<<<<<< HEAD -->
+
     <string name="projects_loading">Loading project list…</string>
     <string name="projects_select">Select a project:</string>
     <string name="commits_loading">Loading commit list…</string>
     <string name="commits_select">Select a commit:</string>
+
+    
     <string name="commit_details_loading">Commit details loading</string>
     <string name="logout">Log out</string>
-<!-- ======= -->
-<!--     <string name="projects_loading">Loading projects list…</string> -->
-<!--     <string name="commits_loading">Loading commits list…</string> -->
-<!--     <string name="commit_details_loading">Commit details loading</string> -->
-<!-- >>>>>>> refs/heads/sprint4_selectingFiles -->
+
     <string name="stories_loading">Loading story list…</string>
+    <string name="stories_select">Select a story:</string>
     <string name="files_loading">Loading file list…</string>
     <string name="files_select">Select files:</string>
     <string name="title_activity_project_commit">ProjectCommitActivity</string>
