@@ -45,16 +45,16 @@
 
     
     <ListView android:id="@+id/listOfFilenames"
-		android:layout_height="0dip"
+		android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:fastScrollEnabled="true" />
     
     <LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical" >
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:orientation="vertical" >
 	    
     <Button 
         android:id="@+id/saveSelectedFilesButton"

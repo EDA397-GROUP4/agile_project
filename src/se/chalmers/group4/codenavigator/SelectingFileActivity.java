@@ -1,5 +1,6 @@
 package se.chalmers.group4.codenavigator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.StringTokenizer;
 import org.kohsuke.github.GHBranch;
 import org.kohsuke.github.GHCommit;
 import org.kohsuke.github.GHCommit.File;
+import org.kohsuke.github.GHContent;
 import org.kohsuke.github.GHRepository;
 
 import android.app.ActionBar;
@@ -152,6 +154,7 @@ public class SelectingFileActivity extends Activity {
 // // putStringSet(String key, Set<String> values) finns även en getStringSet
 // // remove(String key)
 //        int i = 0;
+		interestingFiles.clear(); // remove old saved data
         for (String filename: filesToSave) {
         	interestingFiles.add(filename);
 //     	   String tmpFileTag = TAG_FILE_NAME+i;
@@ -329,6 +332,7 @@ public class SelectingFileActivity extends Activity {
 		protected String doInBackground(Void... v) {
 			StringBuilder     finalMasterBranchFiles = new StringBuilder();
 			GHBranch          theMasterBranch;
+			String repfiles = "";
 //			ArrayList<String> tmpAllRepositoryFiles  = new ArrayList<String>();
 			//finalMasterBranchFiles.append("Masterbranch files are: ");
 			try {
@@ -336,11 +340,13 @@ public class SelectingFileActivity extends Activity {
 				// Get the selected repository from the app class
 				CodeNavigatorApplication app           = (CodeNavigatorApplication) getApplication();
 				GHRepository             theRepository = app.getGithubRepository();
-				Map<String,GHBranch>	 theBranches   = theRepository.getBranches();
-				Log.d("selectFiles","####theBranches = :"+theBranches);
-				Log.d("selectFiles","theBranches got :"+theBranches.size()+" items");
-				Iterator<String>         iterator      = theBranches.keySet().iterator();
+				//Map<String,GHBranch>	 theBranches   = theRepository.getBranches();
+				//Log.d("selectFiles","####theBranches = :"+theBranches);
+				//Log.d("selectFiles","theBranches got :"+theBranches.size()+" items");
+				//Iterator<String>         iterator      = theBranches.keySet().iterator();
 //				int i = 0;
+				repfiles  = getFileList(theRepository);
+				/*
 				while (iterator.hasNext())    {
 					
 					Object key = iterator.next();
@@ -357,15 +363,19 @@ public class SelectingFileActivity extends Activity {
 							finalMasterBranchFiles.append(aFile.getFileName()+",");
 //							tmpAllRepositoryFiles.add(aFile.getFileName());
 						}
+						repfiles  = getFileList(theRepository);
 						Log.d("selectFilesRESULT",finalMasterBranchFiles.toString());
 					}
 				}
-				return finalMasterBranchFiles.toString();
+				//return finalMasterBranchFiles.toString();
+				 *
+				 */
+				return repfiles;
 			} catch (Exception e) {
 				Log.d("selectFiles","Exception during file loading :"+e.getMessage() );
 			}
 
-			return finalMasterBranchFiles.toString();
+			return repfiles;
 		}
 		
 		
@@ -401,5 +411,29 @@ public class SelectingFileActivity extends Activity {
     	LinearLayout layout_view = (LinearLayout)findViewById(R.id.LayoutFileInfo);
     	layout_view.setVisibility(View.GONE);
     }
+   
+   private String getFileList(GHRepository repo) {
+	   StringBuilder fileList = new StringBuilder();
+	   try {
+		   List<GHContent> rootFolder = repo.getDirectoryContent("/");
+		   recusiveParse(rootFolder,fileList,repo);
+	   } catch (IOException e) {}
+	   
+	   return fileList.toString();
+   }
+   
+   private void recusiveParse(List<GHContent> folderContent, StringBuilder fileList, GHRepository repo) {
+	   for(GHContent folderElem: folderContent) {
+		   if(folderElem.isDirectory()) {
+			   try {
+				   recusiveParse(repo.getDirectoryContent(folderElem.getPath()),fileList,repo);
+				} catch (IOException e) {}
+		   }
+		   else if (folderElem.isFile()) {
+			   fileList.append(folderElem.getPath()+",");
+		   }
+	   }
+   }
+	   
 
 }
