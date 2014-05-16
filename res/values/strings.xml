@@ -43,6 +43,5 @@
     <string name="title_activity_selecting_file">SelectingFileActivity</string>
 	<string name="save_selected_files">Save selected files</string>
 	<string name="rowDescription">File name</string>
+	<string name="assign_btn">Assign</string>
 </resources>
-
-
